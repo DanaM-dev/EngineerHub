@@ -15,28 +15,18 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.font.FontFamily
-
 import androidx.compose.ui.text.style.TextAlign
-
-
-
-
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-
 import androidx.compose.material3.TextButton
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,9 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Custom Colors for the Dashboard
-val LightBlueMain = Color(0xFFBBDEFB)   // Slightly darker light-blue for the background card
-val LightBlueNested = Color(0xFFE3F2FD) // Very light blue for the nested calendar
+val DashboardBackground = Color(0xFFF7F9FC)
+val CardBackground = Color(0xFFFFFFFF)
+
+val PrimaryBlue = Color(0xFF1565C0)
+val LightBlueAccent = Color(0xFFE3F2FD)
+
+val TextPrimary = Color(0xFF1A1A1A)
+val TextSecondary = Color(0xFF757575)
 
 data class EngineerEvent(
     val date: String,
@@ -75,10 +70,15 @@ fun HomeScreen() {
 
         // MAIN CALENDAR CONTAINER (Square edges, darker light-blue)
         Card(
-            shape = RectangleShape,
-            colors = CardDefaults.cardColors(containerColor = LightBlueMain),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = CardBackground
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            ),
             modifier = Modifier.fillMaxWidth()
-        ) {
+        ){
             Column(modifier = Modifier.padding(16.dp)) {
 
                 // NESTED CALENDAR GRID (Lighter blue, square edges)
@@ -93,8 +93,11 @@ fun HomeScreen() {
 
         // UPCOMING EVENTS (Kept round as requested, using LightBlueMain)
         Card(
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = LightBlueMain),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = CardBackground),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            ),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -102,8 +105,8 @@ fun HomeScreen() {
                     text = "Upcoming Events",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    fontFamily = FontFamily.Cursive,
-                        color = Color.White,
+                    fontFamily = FontFamily.SansSerif,
+                    color = TextPrimary,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -116,10 +119,17 @@ fun HomeScreen() {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            val categoryColor = when(event.category){
+                                "Exam" -> Color.Red
+                                "Project" -> Color.Blue
+                                "Quiz" -> Color.Yellow
+                                else -> Color.Green
+                            }
                             Text(
                                 text = "• [${event.category}] ${event.date}: ${event.description}",
                                 modifier = Modifier.weight(1f),
-                                fontFamily = FontFamily.SansSerif
+                                fontFamily = FontFamily.SansSerif,
+                                color = categoryColor
                             )
                             TextButton(onClick = { eventList.remove(event) }) {
                                 Text("Delete", color = MaterialTheme.colorScheme.error)
@@ -154,8 +164,8 @@ fun HomeScreen() {
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = Color.White,
                             unfocusedContainerColor = Color.White,
-                            focusedBorderColor = Color.White,
-                            unfocusedBorderColor = Color.White
+                            focusedBorderColor = PrimaryBlue,
+                            unfocusedBorderColor = Color.LightGray
                         )
                     )
 
@@ -172,7 +182,7 @@ fun HomeScreen() {
                                     showAddDialog = false
                                 },
                                 modifier = Modifier.weight(1f),
-                                shape = RectangleShape
+                                shape = RoundedCornerShape(14.dp)
                             ) {
                                 Text("Add as Exam", textAlign = TextAlign.Center)
                             }
@@ -183,7 +193,7 @@ fun HomeScreen() {
                                     showAddDialog = false
                                 },
                                 modifier = Modifier.weight(1f),
-                                shape = RectangleShape
+                                shape = RoundedCornerShape(14.dp)
                             ) {
                                 Text("Add as Project", textAlign = TextAlign.Center)
                             }
@@ -197,7 +207,7 @@ fun HomeScreen() {
                                     showAddDialog = false
                                 },
                                 modifier = Modifier.weight(1f),
-                                shape = RectangleShape
+                                shape = RoundedCornerShape(14.dp)
                             ) {
                                 Text("Add as Quiz", textAlign = TextAlign.Center)
                             }
@@ -208,7 +218,7 @@ fun HomeScreen() {
                                     showAddDialog = false
                                 },
                                 modifier = Modifier.weight(1f),
-                                shape = RectangleShape
+                                shape = RoundedCornerShape(14.dp)
                             ) {
                                 Text("Add as Study", textAlign = TextAlign.Center)
                             }
@@ -225,3 +235,5 @@ fun HomeScreen() {
         )
     }
 }
+
+

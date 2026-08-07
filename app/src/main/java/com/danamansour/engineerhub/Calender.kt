@@ -1,6 +1,5 @@
 package com.danamansour.engineerhub
 
-import androidx.compose.ui.graphics.RectangleShape
 import java.time.YearMonth
 import androidx.compose.ui.text.TextStyle
 import java.util.Locale
@@ -18,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.ui.geometry.Offset
@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import java.time.LocalDate
 
 
 @Composable
@@ -41,23 +42,19 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
 
     // Nested Card
     Card(
-        shape = RectangleShape,
-        colors = CardDefaults.cardColors(containerColor = LightBlueNested),
-        modifier = Modifier.fillMaxWidth()
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = LightBlueAccent
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = "$currentMonthName $currentYear",
-                fontFamily = FontFamily.Cursive,
+                fontFamily = FontFamily.SansSerif,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 style = TextStyle(
-                    color = LightBlueMain,
-                    shadow = Shadow(
-                        color = Color.Black.copy(alpha = 0.7f),
-                        offset = Offset(2f, 2f),
-                        blurRadius = 1f
-                    )
+                    color = PrimaryBlue,
             )
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -75,7 +72,7 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily.SansSerif,
                         style = TextStyle(
-                            color = Color.White
+                            color = PrimaryBlue
                         )
                     )
                 }
@@ -96,13 +93,18 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
                         if (day == null) {
                             Spacer(modifier = Modifier.weight(1f).padding(2.dp))
                         } else {
+                            val isToday = day == LocalDate.now().dayOfMonth
                             Button(
                                 onClick = { onDateSelected("$currentMonthName $day, $currentYear") },
                                 modifier = Modifier.weight(1f).padding(2.dp),
-                                shape = RectangleShape,
+                                shape = RoundedCornerShape(12.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.White,
-                                    contentColor = LightBlueMain ),
+                                    containerColor =
+                                        if(isToday) PrimaryBlue
+                                        else Color.White,
+                                    contentColor =
+                                        if(isToday) Color.White
+                                        else PrimaryBlue,),
                                 contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)
                             ) {
                                 Text(

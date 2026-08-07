@@ -13,14 +13,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,7 +40,9 @@ fun EngineerHubApp() {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
+    var currentScreen by remember { mutableStateOf("home") }
+    val LightBlueMain = Color(0xFFBBDEFB)
+    val DarkBlueText = Color(0xFF0D47A1)
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -46,35 +55,53 @@ fun EngineerHubApp() {
                 )
 
                 NavigationDrawerItem(
-                    label = { Text("Dashboard") },
-                    selected = false,
+                    label = { Text("Dashboard",fontFamily = FontFamily.SansSerif) },
+                    selected = currentScreen == "home",
                     onClick = {
+                        currentScreen = "home"
                         navController.navigate(Screen.Dashboard)
                         scope.launch { drawerState.close() }
                     },
-                    modifier = Modifier.padding(horizontal = 12.dp)
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
                     label = { Text("Electrical Hub") },
-                    selected = false,
+                    selected = currentScreen == "electrical",
                     onClick = {
+                        currentScreen = "electrical"
                         navController.navigate(Screen.Electrical)
                         scope.launch { drawerState.close() }
                     },
-                    modifier = Modifier.padding(horizontal = 12.dp)
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
                     label = { Text("Mechanical Hub") },
-                    selected = false,
+                    selected = currentScreen == "mechanical",
                     onClick = {
+                        currentScreen = "mechanical"
                         navController.navigate(Screen.Mechanical)
                         scope.launch { drawerState.close() }
                     },
-                    modifier = Modifier.padding(horizontal = 12.dp)
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black
+                    )
                 )
             }
         }
