@@ -91,7 +91,6 @@ fun ConstantsSheetScreen() {
             fontWeight = FontWeight.Bold
         )
 
-        // Search Bar (Themed)
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
@@ -108,7 +107,6 @@ fun ConstantsSheetScreen() {
             )
         )
 
-        // Filter Category Chips (Themed)
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
@@ -134,7 +132,6 @@ fun ConstantsSheetScreen() {
             }
         }
 
-        // List of Constants
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth()
@@ -199,8 +196,6 @@ fun ConstantCard(item: ConstantItem, onCopy: () -> Unit) {
                     )
                 }
             }
-
-            // Themed Inner Box for the Formula/Value
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),

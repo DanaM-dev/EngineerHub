@@ -12,4 +12,5 @@ object Screen {
     const val Aerospace = "aerospace"
     const val UnitConverter = "unit_converter"
     const val ConstantsSheet = "constants_sheet"
+    const val Pomodoro = "pomodoro"
 }

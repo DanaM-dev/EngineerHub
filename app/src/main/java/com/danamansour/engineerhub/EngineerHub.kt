@@ -3,7 +3,6 @@ package com.danamansour.engineerhub
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -45,6 +44,7 @@ import androidx.compose.material.icons.outlined.Router
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.SwapHoriz
 import androidx.compose.material.icons.outlined.Thermostat
+import androidx.compose.material.icons.outlined.Timer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -339,6 +339,30 @@ fun EngineerHubApp() {
                         unselectedIconColor = DarkBlueText
                     )
                 )
+
+                NavigationDrawerItem(
+                    label = { Text("Pomodoro Timer",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Timer,
+                            contentDescription = "Pomodoro Timer"
+                        )
+                    },
+                    selected = currentScreen == "pomodoro",
+                    onClick = {
+                        currentScreen = "pomodoro"
+                        navController.navigate(Screen.Pomodoro)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
             }
         }
     ) {
@@ -387,6 +411,9 @@ fun EngineerHubApp() {
                 }
                 composable(Screen.ConstantsSheet) {
                     ConstantsSheetScreen()
+                }
+                composable(Screen.Pomodoro) {
+                    PomodoroScreen()
                 }
             }
         }
