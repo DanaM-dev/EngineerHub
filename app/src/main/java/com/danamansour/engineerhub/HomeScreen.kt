@@ -1,31 +1,32 @@
 package com.danamansour.engineerhub
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -33,17 +34,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalConfiguration
+import java.time.LocalDate
+import java.util.Locale
 
-val DashboardBackground = Color(0xFFF7F9FC)
-val CardBackground = Color(0xFFFFFFFF)
+val GradientStart = Color(0xFF42E8E0) // Cyan
+val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
+val CalendarHighlight = Color(0xFF29B6F6) // The bright blue for the selected circle
 
-val PrimaryBlue = Color(0xFF1565C0)
-val LightBlueAccent = Color(0xFFE3F2FD)
-
-val TextPrimary = Color(0xFF1A1A1A)
-val TextSecondary = Color(0xFF757575)
+val TextPrimaryDark = Color(0xFF4A4A4A) // Soft dark gray for main text
+val TextSoftGray = Color(0xFF9E9E9E) // Light gray for inactive text
 
 data class EngineerEvent(
     val date: String,
@@ -52,128 +55,166 @@ data class EngineerEvent(
 )
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onMenuClick: () -> Unit = {}) {
     val eventList = remember { mutableStateListOf<EngineerEvent>() }
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf("Today") }
     var customDescription by remember { mutableStateOf("") }
+    val config = LocalConfiguration.current
+    val currentLocale = config.locales[0]
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(Color.White)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Dashboard text removed as requested!
-        Spacer(modifier = Modifier.height(8.dp))
 
-        // MAIN CALENDAR CONTAINER (Square edges, darker light-blue)
-        Card(
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = CardBackground
-            ),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ){
-            Column(modifier = Modifier.padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(280.dp)
 
-                // NESTED CALENDAR GRID (Lighter blue, square edges)
-                AcademicCalendarCard(onDateSelected = { date ->
-                    selectedDate = date
-                    showAddDialog = true
-                })
+                .offset(y = (-48).dp)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(GradientStart, GradientEnd)
+                    ),
+                    shape = WavyHeaderShape()
+                )
+                .padding(top = 48.dp, start = 24.dp, end = 24.dp, bottom = 24.dp)
+        ) {
+
+            IconButton(
+                onClick = onMenuClick,
+                modifier = Modifier.align(Alignment.TopStart)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Open Menu",
+                    tint = Color.White
+                )
+            }
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 24.dp), // Slight push down to clear the menu icon
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = String.format(currentLocale, "%02d", LocalDate.now().dayOfMonth),
+                    fontSize = 80.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.White,
+                    fontFamily = FontFamily.SansSerif
+                )
+
+                Box(
+                    modifier = Modifier
+                        .height(60.dp)
+                        .width(1.dp)
+                        .background(Color.White.copy(alpha = 0.5f))
+                )
+
+                Column {
+                    val currentMonthName = LocalDate.now().month.getDisplayName(java.time.format.TextStyle.FULL, currentLocale)
+                    Text(
+                        text = currentMonthName,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Light,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "${LocalDate.now().year}",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // UPCOMING EVENTS (Kept round as requested, using LightBlueMain)
-        Card(
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = CardBackground),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Upcoming Events",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily.SansSerif,
-                    color = TextPrimary,
-                )
-                Spacer(modifier = Modifier.height(12.dp))
 
-                if (eventList.isEmpty()) {
-                    Text(text = "• No upcoming events scheduled.", fontFamily = FontFamily.SansSerif)
-                } else {
-                    for (event in eventList) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            val categoryColor = when(event.category){
-                                "Exam" -> Color.Red
-                                "Project" -> Color.Blue
-                                "Quiz" -> Color.Yellow
-                                else -> Color.Green
-                            }
-                            Text(
-                                text = "• [${event.category}] ${event.date}: ${event.description}",
-                                modifier = Modifier.weight(1f),
-                                fontFamily = FontFamily.SansSerif,
-                                color = categoryColor
-                            )
-                            TextButton(onClick = { eventList.remove(event) }) {
-                                Text("Delete", color = MaterialTheme.colorScheme.error)
-                            }
+        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+            AcademicCalendarCard(onDateSelected = { date ->
+                selectedDate = date
+                showAddDialog = true
+            })
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+
+            Text(
+                text = "Upcoming Events",
+                fontWeight = FontWeight.Light,
+                fontSize = 22.sp,
+                color = TextPrimaryDark,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (eventList.isEmpty()) {
+                Text(
+                    text = "No upcoming events scheduled.",
+                    color = TextSoftGray,
+                    fontSize = 14.sp
+                )
+            } else {
+                for (event in eventList) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val categoryColor = when(event.category){
+                            "Exam" -> Color.Red
+                            "Project" -> CalendarHighlight
+                            "Quiz" -> Color(0xFFFFB300)
+                            else -> Color.Green
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(text = event.date, fontSize = 12.sp, color = TextSoftGray)
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "[${event.category}] ${event.description}",
+                                fontSize = 16.sp,
+                                color = categoryColor,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        TextButton(onClick = { eventList.remove(event) }) {
+                            Text("Delete", color = Color(0xFFE57373))
+                        }
                     }
                 }
             }
         }
     }
 
-    // THE POPUP DIALOG
+
     if (showAddDialog) {
         AlertDialog(
             onDismissRequest = { showAddDialog = false },
-            title = {
-                Text(text = "Add Event", fontFamily = FontFamily.SansSerif)
-            },
+            title = { Text(text = "Add Event") },
             text = {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Text(text = selectedDate, fontFamily = FontFamily.SansSerif, color = Color.Gray)
+                    Text(text = selectedDate, color = TextSoftGray)
                     Spacer(modifier = Modifier.height(12.dp))
-
-                    // THE NEW WHITE TEXT BOX
                     OutlinedTextField(
                         value = customDescription,
                         onValueChange = { customDescription = it },
                         label = { Text("Event Details") },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RectangleShape,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
-                            focusedBorderColor = PrimaryBlue,
-                            unfocusedBorderColor = Color.LightGray
-                        )
+                        modifier = Modifier.fillMaxWidth()
                     )
-
                     Spacer(modifier = Modifier.height(24.dp))
-
-                    // 2x2 BUTTON GRID
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        // Top Row
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                             Button(
                                 onClick = {
@@ -181,24 +222,17 @@ fun HomeScreen() {
                                     customDescription = ""
                                     showAddDialog = false
                                 },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(14.dp)
-                            ) {
-                                Text("Add as Exam", textAlign = TextAlign.Center)
-                            }
+                                modifier = Modifier.weight(1f)
+                            ) { Text("Add Exam") }
                             Button(
                                 onClick = {
                                     eventList.add(EngineerEvent(selectedDate, "Project", customDescription.ifEmpty { "Milestone" }))
                                     customDescription = ""
                                     showAddDialog = false
                                 },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(14.dp)
-                            ) {
-                                Text("Add as Project", textAlign = TextAlign.Center)
-                            }
+                                modifier = Modifier.weight(1f)
+                            ) { Text("Add Project") }
                         }
-                        // Bottom Row
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                             Button(
                                 onClick = {
@@ -206,34 +240,24 @@ fun HomeScreen() {
                                     customDescription = ""
                                     showAddDialog = false
                                 },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(14.dp)
-                            ) {
-                                Text("Add as Quiz", textAlign = TextAlign.Center)
-                            }
+                                modifier = Modifier.weight(1f)
+                            ) { Text("Add Quiz") }
                             Button(
                                 onClick = {
                                     eventList.add(EngineerEvent(selectedDate, "Study", customDescription.ifEmpty { "Revision" }))
                                     customDescription = ""
                                     showAddDialog = false
                                 },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(14.dp)
-                            ) {
-                                Text("Add as Study", textAlign = TextAlign.Center)
-                            }
+                                modifier = Modifier.weight(1f)
+                            ) { Text("Add Study") }
                         }
                     }
                 }
             },
             confirmButton = {},
             dismissButton = {
-                TextButton(onClick = { showAddDialog = false }) {
-                    Text("Cancel")
-                }
+                TextButton(onClick = { showAddDialog = false }) { Text("Cancel") }
             }
         )
     }
 }
-
-

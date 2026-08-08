@@ -1,6 +1,15 @@
 package com.danamansour.engineerhub
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -26,9 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -43,6 +53,7 @@ fun EngineerHubApp() {
     var currentScreen by remember { mutableStateOf("home") }
     val LightBlueMain = Color(0xFFBBDEFB)
     val DarkBlueText = Color(0xFF0D47A1)
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -107,29 +118,21 @@ fun EngineerHubApp() {
         }
     ) {
         Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("EngineerHub") },
-                    navigationIcon = {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(imageVector = Icons.Default.Menu, contentDescription = "Open Menu")
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
-            }
+            modifier = Modifier.fillMaxSize(),
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = paddingValues.calculateBottomPadding()) // Only keep bottom padding for navigation bar
+            )
             NavHost(
                 navController = navController,
                 startDestination = Screen.Dashboard,
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable(Screen.Dashboard) {
-                    HomeScreen()
+                    HomeScreen(onMenuClick = { scope.launch { drawerState.open() } })
                 }
                 composable(Screen.Electrical) {
                     ElectricalScreen()

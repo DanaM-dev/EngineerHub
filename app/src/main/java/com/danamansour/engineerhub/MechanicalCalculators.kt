@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 // Mechanical helper functions
@@ -28,97 +29,109 @@ fun StressCalculator() {
     var forceValue by remember { mutableStateOf("") }
     var areaValue by remember { mutableStateOf("") }
     var stressResult by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
-    ElevatedCard(
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        modifier = Modifier.fillMaxWidth()
+    EngineerCalculatorTemplate(
+        title = "Mechanical Stress",
+        subtitle = "Calculate Stress (σ = F / A)",
+        onCalculate = {
+            val force = forceValue.toDoubleOrNull()
+            val area = areaValue.toDoubleOrNull()
+             if (force == null || area == null) {
+                 isError = true
+                 stressResult = "Invalid Input!"
+             }
+                else if (area == 0.0) {
+                    stressResult = "Area cannot be zero!"
+                isError = true
+                }
+                else {
+                    stressResult = "Stress: ${calculateStress(force, area)} Pa"
+                isError = false
+                }
+        },
+        resultText = stressResult,
+        isError = isError
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Stress Calculator (σ = F / A)")
-            Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
-                value = forceValue,
-                onValueChange = { forceValue = it },
-                label = { Text("Force F (N)") },
-                modifier = Modifier.fillMaxWidth()
+        OutlinedTextField(
+            value = forceValue,
+            onValueChange = { forceValue = it },
+            label = { Text("Force F (N)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
             )
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                value = areaValue,
-                onValueChange = { areaValue = it },
-                label = { Text("Area A (m²)") },
-                modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(
+            value = areaValue,
+            onValueChange = { areaValue = it },
+            label = { Text("Area A (m²)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
             )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    val force = forceValue.toDoubleOrNull()
-                    val area = areaValue.toDoubleOrNull()
-                    stressResult = when {
-                        force == null || area == null -> "Invalid Input!"
-                        area == 0.0 -> "Area cannot be zero!"
-                        else -> "Stress: ${calculateStress(force, area)} Pa"
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Calculate Stress")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = stressResult)
-        }
+        )
     }
 }
+
 
 @Composable
 fun StrainCalculator() {
     var deltaLInput by remember { mutableStateOf("") }
     var initialLInput by remember { mutableStateOf("") }
     var strainResult by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
-    ElevatedCard(
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Strain Calculator (ε = ΔL / L₀)")
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = deltaLInput,
-                onValueChange = { deltaLInput = it },
-                label = { Text("Change in Length ΔL (m)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                value = initialLInput,
-                onValueChange = { initialLInput = it },
-                label = { Text("Initial Length L₀ (m)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    val deltaL = deltaLInput.toDoubleOrNull()
-                    val initialL = initialLInput.toDoubleOrNull()
-                    strainResult = when {
-                        deltaL == null || initialL == null -> "Invalid Input!"
-                        initialL == 0.0 -> "Initial length cannot be zero!"
-                        else -> "Strain: ${calculateStrain(deltaL, initialL)} (unitless)"
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Calculate Strain")
+    EngineerCalculatorTemplate(
+        title = "Mechanical Strain",
+        subtitle = "Calculate Strain (ε = ΔL / L₀)",
+        onCalculate = {
+            val deltaL = deltaLInput.toDoubleOrNull()
+            val initialL = initialLInput.toDoubleOrNull()
+            if (deltaL == null || initialL == null) {
+                strainResult = "Invalid Input!"
+                isError = true
+            } else if (initialL == 0.0) {
+                strainResult = "Initial length cannot be zero!"
+                isError = true
+            } else {
+                strainResult = "Strain: ${calculateStrain(deltaL, initialL)} (unitless)"
+                isError = false
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = strainResult)
-        }
+        },
+        resultText = strainResult,
+        isError = isError
+    ) {
+
+        OutlinedTextField(
+            value = deltaLInput,
+            onValueChange = { deltaLInput = it },
+            label = { Text("Change in Length ΔL (m)",color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(
+            value = initialLInput,
+            onValueChange = { initialLInput = it },
+            label = { Text("Initial Length L₀ (m)",color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+
     }
 }

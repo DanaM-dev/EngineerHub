@@ -18,9 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-// Electrical helper functions
 fun calculateVoltage(current: Double, resistance: Double): Double = current * resistance
 fun calculateSeriesResistance(r1: Double, r2: Double): Double = r1 + r2
 
@@ -29,56 +31,49 @@ fun VoltageCalculator() {
     var currentInput by remember { mutableStateOf("") }
     var resistanceInput by remember { mutableStateOf("") }
     var voltageResult by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ElevatedCard(
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Ohm's Law Calculator")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = currentInput,
-                    onValueChange = { currentInput = it },
-                    label = { Text("Enter current (Amps)") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = resistanceInput,
-                    onValueChange = { resistanceInput = it },
-                    label = { Text("Enter resistance (Ohms)") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = {
-                        val current = currentInput.toDoubleOrNull()
-                        val resistance = resistanceInput.toDoubleOrNull()
-                        voltageResult = if (current != null && resistance != null) {
-                            "Voltage: ${calculateVoltage(current, resistance)} Volts"
-                        } else {
-                            "Invalid Input!"
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Calculate Voltage")
-                }
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(text = voltageResult)
+    EngineerCalculatorTemplate(
+        title = "Ohm's Law",
+        subtitle = "Calculate Voltage (V = I × R)",
+        onCalculate = {
+            val current = currentInput.toDoubleOrNull()
+            val resistance = resistanceInput.toDoubleOrNull()
+            if (current != null && resistance != null) {
+                voltageResult = "${calculateVoltage(current, resistance)} Volts"
+                isError = false
+            } else {
+                voltageResult = "Invalid Input"
+                isError = true
             }
-        }
+        },
+        resultText = voltageResult,
+        isError = isError
+    ) {
+        // only the inputs , everything else -> template
+        OutlinedTextField(
+            value = currentInput,
+            onValueChange = { currentInput = it },
+            label = { Text("Current (Amps)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(
+            value = resistanceInput,
+            onValueChange = { resistanceInput = it },
+            label = { Text("Resistance (Ohms)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
     }
 }
 
@@ -87,55 +82,50 @@ fun SeriesResistanceCalculator() {
     var resistor1Input by remember { mutableStateOf("") }
     var resistor2Input by remember { mutableStateOf("") }
     var seriesResult by remember { mutableStateOf("") }
+    var isError by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ElevatedCard(
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Series Resistance Calculator")
-                Spacer(modifier = Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = resistor1Input,
-                    onValueChange = { resistor1Input = it },
-                    label = { Text("R1 (Ohms)") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = resistor2Input,
-                    onValueChange = { resistor2Input = it },
-                    label = { Text("R2 (Ohms)") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = {
-                        val r1 = resistor1Input.toDoubleOrNull()
-                        val r2 = resistor2Input.toDoubleOrNull()
-                        seriesResult = if (r1 != null && r2 != null) {
-                            "R_total = ${calculateSeriesResistance(r1, r2)} Ohms"
-                        } else {
-                            "Invalid Input!"
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Calculate Series Resistance")
-                }
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(text = seriesResult)
+    EngineerCalculatorTemplate(
+        title = "Series Resistance",
+        subtitle = "Calculate Total Resistance (R_total = R1 + R2)",
+        onCalculate = {
+            val r1 = resistor1Input.toDoubleOrNull()
+            val r2 = resistor2Input.toDoubleOrNull()
+            if (r1 != null && r2 != null) {
+                seriesResult = "R_total = ${calculateSeriesResistance(r1, r2)} Ohms"
+                isError = false
+            } else {
+                seriesResult = "Invalid Input!"
+                isError = true
             }
-        }
+        },
+        resultText = seriesResult,
+        isError = isError
+    ) {
+        OutlinedTextField(
+            value = resistor1Input,
+            onValueChange = { resistor1Input = it },
+            label = { Text("R1 (Ohms)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = resistor2Input,
+            onValueChange = { resistor2Input = it },
+            label = { Text("R2 (Ohms)", color = TextSoftGray) },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = GradientEnd,
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+
     }
 }
