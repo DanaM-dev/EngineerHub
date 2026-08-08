@@ -1,23 +1,16 @@
 package com.danamansour.engineerhub
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -25,8 +18,6 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,9 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -48,6 +37,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Router
+import androidx.compose.material.icons.outlined.Science
+import androidx.compose.material.icons.outlined.Thermostat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,7 +89,7 @@ fun EngineerHubApp() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("Electrical Hub") },
+                    label = { Text("Electrical Hub",fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Bolt,
@@ -122,7 +114,7 @@ fun EngineerHubApp() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("Mechanical Hub") },
+                    label = { Text("Mechanical Hub",fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Settings,
@@ -133,6 +125,79 @@ fun EngineerHubApp() {
                     onClick = {
                         currentScreen = "mechanical"
                         navController.navigate(Screen.Mechanical)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Chemical Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Science,
+                            contentDescription = "Chemical Hub"
+                        )
+                    },
+                    selected = currentScreen == "chemical",
+                    onClick = {
+                        currentScreen = "chemical"
+                        navController.navigate(Screen.Chemical)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
+                NavigationDrawerItem(
+                        label = { Text("Thermodynamics Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Thermostat,
+                            contentDescription = "Thermodynamics Hub"
+                        )
+                    },
+                    selected = currentScreen == "thermo",
+                    onClick = {
+                        currentScreen = "thermo"
+                        navController.navigate(Screen.Thermo)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Telecommunication Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Router,
+                            contentDescription = "Telecommunication Hub"
+                        )
+                    },
+                    selected = currentScreen == "telecom",
+                    onClick = {
+                        currentScreen = "telecom"
+                        navController.navigate(Screen.Telecom)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -169,6 +234,15 @@ fun EngineerHubApp() {
                 }
                 composable(Screen.Mechanical) {
                     MechanicalScreen()
+                }
+                composable(Screen.Thermo) {
+                    ThermodynamicsScreen()
+                }
+                composable(Screen.Telecom) {
+                    TelecomScreen()
+                }
+                composable(Screen.Chemical) {
+                    ChemicalScreen()
                 }
             }
         }
