@@ -40,6 +40,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalConfiguration
 import java.time.LocalDate
 import java.util.Locale
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 
 val GradientStart = Color(0xFF42E8E0) // Cyan
 val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
@@ -47,6 +52,8 @@ val CalendarHighlight = Color(0xFF29B6F6) // The bright blue for the selected ci
 
 val TextPrimaryDark = Color(0xFF4A4A4A) // Soft dark gray for main text
 val TextSoftGray = Color(0xFF9E9E9E) // Light gray for inactive text
+
+
 
 data class EngineerEvent(
     val date: String,
@@ -62,6 +69,8 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
     var customDescription by remember { mutableStateOf("") }
     val config = LocalConfiguration.current
     val currentLocale = config.locales[0]
+
+    var selectedCategory by remember { mutableStateOf("Exam") }
 
     Column(
         modifier = Modifier
@@ -121,7 +130,10 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                 )
 
                 Column {
-                    val currentMonthName = LocalDate.now().month.getDisplayName(java.time.format.TextStyle.FULL, currentLocale)
+                    val currentMonthName = LocalDate.now().month.getDisplayName(
+                        java.time.format.TextStyle.FULL,
+                        currentLocale
+                    )
                     Text(
                         text = currentMonthName,
                         fontSize = 22.sp,
@@ -173,7 +185,7 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val categoryColor = when(event.category){
+                        val categoryColor = when (event.category) {
                             "Exam" -> Color.Red
                             "Project" -> CalendarHighlight
                             "Quiz" -> Color(0xFFFFB300)
@@ -201,62 +213,142 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
 
     if (showAddDialog) {
         AlertDialog(
-            onDismissRequest = { showAddDialog = false },
-            title = { Text(text = "Add Event") },
+            onDismissRequest = {
+                showAddDialog = false
+                customDescription = ""
+                selectedCategory = "Exam"
+            },
+            containerColor = Color.White,
+            shape = RoundedCornerShape(24.dp),
+            title = {
+                Text(
+                    text = "Add Event",
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 22.sp,
+                    color = TextPrimaryDark
+                )
+            },
             text = {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Text(text = selectedDate, color = TextSoftGray)
-                    Spacer(modifier = Modifier.height(12.dp))
+                Column {
+                    Text(
+                        text = selectedDate,
+                        color = CalendarHighlight,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Radio Button Label
+                    Text(text = "Event type", color = TextSoftGray, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // implementing Grid for Radio Buttons column + 2 rows
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        // top row
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                RadioButton(
+                                    selected = selectedCategory == "Exam",
+                                    onClick = { selectedCategory = "Exam" },
+                                    colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
+                                )
+                                Text("Exam", color = TextPrimaryDark, fontSize = 15.sp)
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                RadioButton(
+                                    selected = selectedCategory == "Quiz",
+                                    onClick = { selectedCategory = "Quiz" },
+                                    colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
+                                )
+                                Text("Quiz", color = TextPrimaryDark, fontSize = 15.sp)
+                            }
+                        }
+                        // bottom row
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                RadioButton(
+                                    selected = selectedCategory == "Project",
+                                    onClick = { selectedCategory = "Project" },
+                                    colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
+                                )
+                                Text("Project", color = TextPrimaryDark, fontSize = 15.sp)
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                RadioButton(
+                                    selected = selectedCategory == "Study",
+                                    onClick = { selectedCategory = "Study" },
+                                    colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
+                                )
+                                Text("Study", color = TextPrimaryDark, fontSize = 15.sp)
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     OutlinedTextField(
                         value = customDescription,
                         onValueChange = { customDescription = it },
-                        label = { Text("Event Details") },
-                        modifier = Modifier.fillMaxWidth()
+                        placeholder = { Text("Event description...", color = TextSoftGray) },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = CalendarHighlight,
+                            unfocusedBorderColor = Color(0xFFE0E0E0)
+                        )
                     )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = {
-                                    eventList.add(EngineerEvent(selectedDate, "Exam", customDescription.ifEmpty { "Final Exam" }))
-                                    customDescription = ""
-                                    showAddDialog = false
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) { Text("Add Exam") }
-                            Button(
-                                onClick = {
-                                    eventList.add(EngineerEvent(selectedDate, "Project", customDescription.ifEmpty { "Milestone" }))
-                                    customDescription = ""
-                                    showAddDialog = false
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) { Text("Add Project") }
-                        }
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = {
-                                    eventList.add(EngineerEvent(selectedDate, "Quiz", customDescription.ifEmpty { "Pop Quiz" }))
-                                    customDescription = ""
-                                    showAddDialog = false
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) { Text("Add Quiz") }
-                            Button(
-                                onClick = {
-                                    eventList.add(EngineerEvent(selectedDate, "Study", customDescription.ifEmpty { "Revision" }))
-                                    customDescription = ""
-                                    showAddDialog = false
-                                },
-                                modifier = Modifier.weight(1f)
-                            ) { Text("Add Study") }
-                        }
-                    }
                 }
             },
-            confirmButton = {},
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val defaultDesc = when (selectedCategory) {
+                            "Exam" -> "Final Exam"
+                            "Project" -> "Milestone"
+                            "Quiz" -> "Pop Quiz"
+                            else -> "Revision"
+                        }
+
+                        eventList.add(
+                            EngineerEvent(
+                                selectedDate,
+                                selectedCategory,
+                                customDescription.ifEmpty { defaultDesc })
+                        )
+
+                        // reset states and close
+                        customDescription = ""
+                        selectedCategory = "Exam"
+                        showAddDialog = false
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = CalendarHighlight),
+                    shape = RoundedCornerShape(20.dp)
+                ) {
+                    Text("Add", color = Color.White, modifier = Modifier.padding(horizontal = 8.dp))
+                }
+            },
             dismissButton = {
-                TextButton(onClick = { showAddDialog = false }) { Text("Cancel") }
+                TextButton(
+                    onClick = {
+                        showAddDialog = false
+                        customDescription = ""
+                        selectedCategory = "Exam"
+                    }
+                ) {
+                    Text("Cancel", color = TextSoftGray)
+                }
             }
         )
     }
