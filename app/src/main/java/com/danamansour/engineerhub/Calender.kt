@@ -23,20 +23,52 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import java.time.LocalDate
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 
 
 @Composable
 fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
-    val currentYearMonth = YearMonth.now()
-    val currentYear = currentYearMonth.year
-    val currentMonthName = currentYearMonth.month.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
-    val totalDays = currentYearMonth.lengthOfMonth()
-    val firstDayOfMonth = currentYearMonth.atDay(1)
-    val emptySpacesBeforeStart = firstDayOfMonth.dayOfWeek.value - 1
+    var displayedYearMonth by remember { mutableStateOf(YearMonth.now()) }
+
+    val currentYear = displayedYearMonth.year
+    val currentMonthName = displayedYearMonth.month.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
+    val totalDays = displayedYearMonth.lengthOfMonth()
+    val firstDayOfMonth = displayedYearMonth.atDay(1)
+    val emptySpacesBeforeStart = firstDayOfMonth.dayOfWeek.value % 7
 
 
     Column(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            // Previous Month Button (<)
+            IconButton(
+                onClick = { displayedYearMonth = displayedYearMonth.minusMonths(1) },
+                modifier = Modifier
+                    .size(36.dp)
+                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "Previous Month",
+                    tint = CalendarHighlight
+                )
+            }
 
         Text(
             text = "$currentMonthName $currentYear",
@@ -44,11 +76,21 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = TextPrimaryDark,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Center
         )
+            IconButton(
+                onClick = { displayedYearMonth = displayedYearMonth.plusMonths(1) },
+                modifier = Modifier
+                    .size(36.dp)
+                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = "Next Month",
+                    tint = CalendarHighlight
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         // Days of the week in crisp Blue
@@ -75,6 +117,7 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
         val gridItems = List(emptySpacesBeforeStart) { null } + (1..totalDays).toList()
         val columns = 7
         val rows = gridItems.chunked(columns)
+        val today = LocalDate.now()
 
         for (row in rows) {
             Row(
@@ -85,7 +128,10 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
                     if (day == null) {
                         Spacer(modifier = Modifier.weight(1f).padding(4.dp))
                     } else {
-                        val isToday = day == LocalDate.now().dayOfMonth
+                        //highlight today's date iff viewing current month & year
+                        val isToday = day == today.dayOfMonth &&
+                                displayedYearMonth.year == today.year &&
+                                displayedYearMonth.month == today.month
                         Button(
                             onClick = { onDateSelected("$currentMonthName $day, $currentYear") },
                             modifier = Modifier
