@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Engineering
 import androidx.compose.material.icons.outlined.Factory
+import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material.icons.outlined.Router
 import androidx.compose.material.icons.outlined.Science
@@ -313,12 +314,36 @@ fun EngineerHubApp() {
                         unselectedIconColor = DarkBlueText
                     )
                 )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Constants Sheet",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.MenuBook,
+                            contentDescription = "Constants Sheet"
+                        )
+                    },
+                    selected = currentScreen == "constants_sheet",
+                    onClick = {
+                        currentScreen = "constants_sheet"
+                        navController.navigate(Screen.ConstantsSheet)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
             }
         }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            contentWindowInsets = WindowInsets(0, 0, 0, 0) //to start at the very top
         ) { paddingValues ->
             Box(
                 modifier = Modifier
@@ -359,6 +384,9 @@ fun EngineerHubApp() {
                 }
                 composable(Screen.UnitConverter) {
                     UnitConverterScreen()
+                }
+                composable(Screen.ConstantsSheet) {
+                    ConstantsSheetScreen()
                 }
             }
         }

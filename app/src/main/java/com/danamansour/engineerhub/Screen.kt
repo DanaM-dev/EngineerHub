@@ -11,4 +11,5 @@ object Screen {
     const val Industrial = "industrial"
     const val Aerospace = "aerospace"
     const val UnitConverter = "unit_converter"
+    const val ConstantsSheet = "constants_sheet"
 }
