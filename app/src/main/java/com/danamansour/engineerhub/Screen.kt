@@ -10,4 +10,5 @@ object Screen {
     const val Civil = "civil"
     const val Industrial = "industrial"
     const val Aerospace = "aerospace"
+    const val UnitConverter = "unit_converter"
 }

@@ -42,6 +42,7 @@ import androidx.compose.material.icons.outlined.Factory
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material.icons.outlined.Router
 import androidx.compose.material.icons.outlined.Science
+import androidx.compose.material.icons.outlined.SwapHoriz
 import androidx.compose.material.icons.outlined.Thermostat
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -287,6 +288,31 @@ fun EngineerHubApp() {
                         unselectedIconColor = DarkBlueText
                     )
                 )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Unit Converter",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.SwapHoriz,
+                            contentDescription = "Unit Converter"
+                        )
+                    },
+                    selected = currentScreen == "unit_converter",
+                    onClick = {
+                        currentScreen = "unit_converter"
+                        navController.navigate(Screen.UnitConverter)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
             }
         }
     ) {
@@ -330,6 +356,9 @@ fun EngineerHubApp() {
                 }
                 composable(Screen.Aerospace) {
                     AerospaceScreen()
+                }
+                composable(Screen.UnitConverter) {
+                    UnitConverterScreen()
                 }
             }
         }
