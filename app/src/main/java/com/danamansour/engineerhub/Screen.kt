@@ -7,4 +7,7 @@ object Screen {
     const val Thermo = "thermo"
     const val Telecom = "telecom"
     const val Chemical = "chemical"
+    const val Civil = "civil"
+    const val Industrial = "industrial"
+    const val Aerospace = "aerospace"
 }

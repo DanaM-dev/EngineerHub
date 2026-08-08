@@ -37,6 +37,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Engineering
+import androidx.compose.material.icons.outlined.Factory
+import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material.icons.outlined.Router
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Thermostat
@@ -209,6 +212,81 @@ fun EngineerHubApp() {
                         unselectedIconColor = DarkBlueText
                     )
                 )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Civil Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Engineering,
+                            contentDescription = "Civil Hub"
+                        )
+                    },
+                    selected = currentScreen == "civil",
+                    onClick = {
+                        currentScreen = "civil"
+                        navController.navigate(Screen.Civil)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Industrial Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Factory,
+                            contentDescription = "Industrial Hub"
+                        )
+                    },
+                    selected = currentScreen == "industrial",
+                    onClick = {
+                        currentScreen = "industrial"
+                        navController.navigate(Screen.Industrial)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
+
+
+                NavigationDrawerItem(
+                    label = { Text("Aerospace Hub",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.RocketLaunch,
+                            contentDescription = "Aerospace Hub"
+                        )
+                    },
+                    selected = currentScreen == "aerospace",
+                    onClick = {
+                        currentScreen = "aerospace"
+                        navController.navigate(Screen.Aerospace)
+                        scope.launch { drawerState.close() }
+                    },
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = LightBlueMain,
+                        unselectedContainerColor = Color.Transparent,
+                        selectedTextColor = DarkBlueText,
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
+                    )
+                )
             }
         }
     ) {
@@ -243,6 +321,15 @@ fun EngineerHubApp() {
                 }
                 composable(Screen.Chemical) {
                     ChemicalScreen()
+                }
+                composable(Screen.Civil) {
+                    CivilScreen()
+                }
+                composable(Screen.Industrial) {
+                    IndustrialScreen()
+                }
+                composable(Screen.Aerospace) {
+                    AerospaceScreen()
                 }
             }
         }
