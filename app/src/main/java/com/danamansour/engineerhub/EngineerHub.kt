@@ -43,6 +43,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,10 +59,11 @@ fun EngineerHubApp() {
     val LightBlueMain = Color(0xFFBBDEFB)
     val DarkBlueText = Color(0xFF0D47A1)
 
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(modifier = Modifier.width(IntrinsicSize.Min)) {
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = "Menu",
@@ -67,6 +73,12 @@ fun EngineerHubApp() {
 
                 NavigationDrawerItem(
                     label = { Text("Dashboard",fontFamily = FontFamily.SansSerif) },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Dashboard"
+                        )
+                    },
                     selected = currentScreen == "home",
                     onClick = {
                         currentScreen = "home"
@@ -77,13 +89,21 @@ fun EngineerHubApp() {
                         selectedContainerColor = LightBlueMain,
                         unselectedContainerColor = Color.Transparent,
                         selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
                     label = { Text("Electrical Hub") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Bolt,
+                            contentDescription = "Electrical Hub"
+                        )
+                    },
                     selected = currentScreen == "electrical",
                     onClick = {
                         currentScreen = "electrical"
@@ -94,13 +114,21 @@ fun EngineerHubApp() {
                         selectedContainerColor = LightBlueMain,
                         unselectedContainerColor = Color.Transparent,
                         selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
                     label = { Text("Mechanical Hub") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Mechanical Hub"
+                        )
+                    },
                     selected = currentScreen == "mechanical",
                     onClick = {
                         currentScreen = "mechanical"
@@ -111,7 +139,9 @@ fun EngineerHubApp() {
                         selectedContainerColor = LightBlueMain,
                         unselectedContainerColor = Color.Transparent,
                         selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black
+                        unselectedTextColor = Color.Black,
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = DarkBlueText
                     )
                 )
             }
@@ -119,12 +149,12 @@ fun EngineerHubApp() {
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            contentWindowInsets = WindowInsets(0, 0, 0, 0)
+            contentWindowInsets = WindowInsets(0, 0, 0, 0) //to start at the very top
         ) { paddingValues ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = paddingValues.calculateBottomPadding()) // Only keep bottom padding for navigation bar
+                    .padding(bottom = paddingValues.calculateBottomPadding())
             )
             NavHost(
                 navController = navController,
