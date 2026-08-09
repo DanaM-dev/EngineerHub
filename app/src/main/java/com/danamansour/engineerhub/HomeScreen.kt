@@ -1,59 +1,32 @@
 package com.danamansour.engineerhub
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.time.LocalDate
-import java.util.Locale
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextFieldDefaults
 
-val GradientStart = Color(0xFF42E8E0) // Cyan
 val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
-val CalendarHighlight = Color(0xFF29B6F6) // The bright blue for the selected circle
+val CalendarHighlight = Color(0xFF29B6F6) // bright blue
 
 val TextPrimaryDark = Color(0xFF4A4A4A) // Soft dark gray for main text
 val TextSoftGray = Color(0xFF9E9E9E) // Light gray for inactive text
-
-
 
 data class EngineerEvent(
     val date: String,
@@ -84,17 +57,15 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(280.dp)
-
                 .offset(y = (-48).dp)
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(GradientEnd,Color(0xFF0061A4),GradientEnd,Color(0xFF0061A4) )
+                        colors = listOf(GradientEnd, Color(0xFF0061A4), GradientEnd, Color(0xFF0061A4))
                     ),
                     shape = WavyHeaderShape()
                 )
                 .padding(top = 48.dp, start = 24.dp, end = 24.dp, bottom = 24.dp)
         ) {
-
             IconButton(
                 onClick = onMenuClick,
                 modifier = Modifier.align(Alignment.TopStart)
@@ -105,7 +76,6 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                     tint = Color.White
                 )
             }
-
 
             Row(
                 modifier = Modifier
@@ -152,7 +122,6 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
             AcademicCalendarCard(onDateSelected = { date ->
                 selectedDate = date
@@ -161,55 +130,51 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-
             Text(
                 text = "Upcoming Events",
-                fontWeight = FontWeight.Light,
-                fontSize = 22.sp,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
                 color = TextPrimaryDark,
             )
+
             Spacer(modifier = Modifier.height(16.dp))
 
+
             if (eventList.isEmpty()) {
-                Text(
-                    text = "No upcoming events scheduled.",
-                    color = TextSoftGray,
-                    fontSize = 14.sp
-                )
-            } else {
-                for (event in eventList) {
-                    Row(
+                OutlinedCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.outlinedCardColors(containerColor = Color(0xFFF9FAFB)),
+                    border = BorderStroke(1.dp, Color(0xFFEEEEEE))
+                ) {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .padding(24.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        val categoryColor = when (event.category) {
-                            "Exam" -> Color.Red
-                            "Project" -> CalendarHighlight
-                            "Quiz" -> Color(0xFFFFB300)
-                            else -> Color.Green
-                        }
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(text = event.date, fontSize = 12.sp, color = TextSoftGray)
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = "[${event.category}] ${event.description}",
-                                fontSize = 16.sp,
-                                color = categoryColor,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                        TextButton(onClick = { eventList.remove(event) }) {
-                            Text("Delete", color = Color(0xFFE57373))
-                        }
+                        Text(
+                            text = "No upcoming events scheduled.",
+                            color = TextSoftGray,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    for (event in eventList) {
+                        EventCard(
+                            event = event,
+                            onDelete = { eventList.remove(event) }
+                        )
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
-
 
     if (showAddDialog) {
         AlertDialog(
@@ -238,13 +203,10 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                     )
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Radio Button Label
                     Text(text = "Event type", color = TextSoftGray, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // implementing Grid for Radio Buttons column + 2 rows
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        // top row
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -269,7 +231,6 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                                 Text("Quiz", color = TextPrimaryDark, fontSize = 15.sp)
                             }
                         }
-                        // bottom row
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -328,7 +289,6 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                                 customDescription.ifEmpty { defaultDesc })
                         )
 
-                        // reset states and close
                         customDescription = ""
                         selectedCategory = "Exam"
                         showAddDialog = false
@@ -351,5 +311,97 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                 }
             }
         )
+    }
+}
+
+@Composable
+fun EventCard(
+    event: EngineerEvent,
+    onDelete: () -> Unit
+) {
+
+    val (primaryColor, backgroundColor) = when (event.category) {
+        "Exam" -> Color(0xFFD32F2F) to Color(0xFFFFEBEE)
+        "Project" -> Color(0xFF0288D1) to Color(0xFFE1F5FE)
+        "Quiz" -> Color(0xFFF57C00) to Color(0xFFFFF3E0)
+        else -> Color(0xFF388E3C) to Color(0xFFE8F5E9)
+    }
+
+    OutlinedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = Color.White
+        ),
+        border = BorderStroke(1.dp, Color(0xFFEEF0F2))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .width(4.dp)
+                    .height(38.dp)
+                    .background(primaryColor, shape = RoundedCornerShape(2.dp))
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+
+                    Surface(
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(6.dp)
+                    ) {
+                        Text(
+                            text = event.category.uppercase(),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = primaryColor,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                        )
+                    }
+
+
+                    Text(
+                        text = event.date,
+                        fontSize = 12.sp,
+                        color = TextSoftGray,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+
+                Text(
+                    text = event.description,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = TextPrimaryDark
+                )
+            }
+
+
+            IconButton(
+                onClick = onDelete,
+                modifier = Modifier.size(32.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete Event",
+                    tint = Color(0xFFB0BEC5),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
     }
 }
