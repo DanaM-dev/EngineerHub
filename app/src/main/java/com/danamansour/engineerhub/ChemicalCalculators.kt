@@ -33,9 +33,9 @@ fun MolarityCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = moles, onValueChange = { moles = it }, label = "Moles n (mol)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = volumeLiters, onValueChange = { volumeLiters = it }, label = "Volume V (L)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = moles, onValueChange = { moles = it }, label = "Moles n (mol)")
+            EngineerTextField(value = volumeLiters, onValueChange = { volumeLiters = it }, label = "Volume V (L)")
         }
     }
 }
@@ -67,10 +67,10 @@ fun DilutionCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = c1, onValueChange = { c1 = it }, label = "C₁ (Initial)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = v1, onValueChange = { v1 = it }, label = "V₁ (Initial)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = v2, onValueChange = { v2 = it }, label = "V₂ (Final)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = c1, onValueChange = { c1 = it }, label = "C₁ (Initial)")
+            EngineerTextField(value = v1, onValueChange = { v1 = it }, label = "V₁ (Initial)")
+            EngineerTextField(value = v2, onValueChange = { v2 = it }, label = "V₂ (Final)")
         }
     }
 }
@@ -105,9 +105,9 @@ fun PhCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = hConcentration, onValueChange = { hConcentration = it }, label = "[H⁺] (mol/L)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = phInput, onValueChange = { phInput = it }, label = "pH Value", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = hConcentration, onValueChange = { hConcentration = it }, label = "[H⁺] (mol/L)")
+            EngineerTextField(value = phInput, onValueChange = { phInput = it }, label = "pH Value")
         }
     }
 }
@@ -143,10 +143,10 @@ fun ArrheniusCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = preExpA, onValueChange = { preExpA = it }, label = "Factor A", modifier = Modifier.weight(1f))
-            EngineerTextField(value = actEnergyEa, onValueChange = { actEnergyEa = it }, label = "Eₐ (J/mol)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = tempK, onValueChange = { tempK = it }, label = "Temp T (K)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = preExpA, onValueChange = { preExpA = it }, label = "Factor A")
+            EngineerTextField(value = actEnergyEa, onValueChange = { actEnergyEa = it }, label = "Eₐ (J/mol)")
+            EngineerTextField(value = tempK, onValueChange = { tempK = it }, label = "Temp T (K)")
         }
     }
 }
@@ -181,10 +181,10 @@ fun StoichiometryCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = massReactant, onValueChange = { massReactant = it }, label = "Reactant Mass (g)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = molarMassReactant, onValueChange = { molarMassReactant = it }, label = "MW Reactant (g/mol)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = molarMassProduct, onValueChange = { molarMassProduct = it }, label = "MW Product (g/mol)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = massReactant, onValueChange = { massReactant = it }, label = "Reactant Mass (g)")
+            EngineerTextField(value = molarMassReactant, onValueChange = { molarMassReactant = it }, label = "MW Reactant (g/mol)")
+            EngineerTextField(value = molarMassProduct, onValueChange = { molarMassProduct = it }, label = "MW Product (g/mol)")
         }
     }
 }

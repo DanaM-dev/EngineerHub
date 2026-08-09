@@ -9,6 +9,7 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
+
 @Composable
 fun VoltageCalculator() {
     var currentInput by remember { mutableStateOf("") }
@@ -33,9 +34,9 @@ fun VoltageCalculator() {
         resultText = voltageResult,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = currentInput, onValueChange = { currentInput = it }, label = "Current (A)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = resistanceInput, onValueChange = { resistanceInput = it }, label = "Resistance (Ω)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = currentInput, onValueChange = { currentInput = it }, label = "Current (A)")
+            EngineerTextField(value = resistanceInput, onValueChange = { resistanceInput = it }, label = "Resistance (Ω)")
         }
     }
 }
@@ -67,9 +68,9 @@ fun SeriesComponentCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = input1, onValueChange = { input1 = it }, label = "Component 1", modifier = Modifier.weight(1f))
-            EngineerTextField(value = input2, onValueChange = { input2 = it }, label = "Component 2", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = input1, onValueChange = { input1 = it }, label = "Component 1")
+            EngineerTextField(value = input2, onValueChange = { input2 = it }, label = "Component 2")
         }
     }
 }
@@ -100,9 +101,9 @@ fun ParallelComponentCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = input1, onValueChange = { input1 = it }, label = "Component 1", modifier = Modifier.weight(1f))
-            EngineerTextField(value = input2, onValueChange = { input2 = it }, label = "Component 2", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = input1, onValueChange = { input1 = it }, label = "Component 1")
+            EngineerTextField(value = input2, onValueChange = { input2 = it }, label = "Component 2")
         }
     }
 }
@@ -134,10 +135,10 @@ fun VoltageDividerCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = vin, onValueChange = { vin = it }, label = "V_in", modifier = Modifier.weight(1f))
-            EngineerTextField(value = r1, onValueChange = { r1 = it }, label = "R1", modifier = Modifier.weight(1f))
-            EngineerTextField(value = r2, onValueChange = { r2 = it }, label = "R2", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = vin, onValueChange = { vin = it }, label = "V_in")
+            EngineerTextField(value = r1, onValueChange = { r1 = it }, label = "R1")
+            EngineerTextField(value = r2, onValueChange = { r2 = it }, label = "R2")
         }
     }
 }
@@ -166,9 +167,9 @@ fun TimeConstantCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = r, onValueChange = { r = it }, label = "Resistance (Ω)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = cOrL, onValueChange = { cOrL = it }, label = "Cap (F) / Ind (H)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = r, onValueChange = { r = it }, label = "Resistance (Ω)")
+            EngineerTextField(value = cOrL, onValueChange = { cOrL = it }, label = "Cap (F) / Ind (H)")
         }
     }
 }
@@ -197,9 +198,9 @@ fun ResonantFrequencyCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = l, onValueChange = { l = it }, label = "Inductance (H)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = c, onValueChange = { c = it }, label = "Capacitance (F)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = l, onValueChange = { l = it }, label = "Inductance (H)")
+            EngineerTextField(value = c, onValueChange = { c = it }, label = "Capacitance (F)")
         }
     }
 }
@@ -233,10 +234,10 @@ fun ResistorColorCodeCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = band1, onValueChange = { band1 = it }, label = "Band 1", isTextOnly = true, modifier = Modifier.weight(1f))
-            EngineerTextField(value = band2, onValueChange = { band2 = it }, label = "Band 2", isTextOnly = true, modifier = Modifier.weight(1f))
-            EngineerTextField(value = mult, onValueChange = { mult = it }, label = "Multiplier", isTextOnly = true, modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = band1, onValueChange = { band1 = it }, label = "Band 1", isTextOnly = true)
+            EngineerTextField(value = band2, onValueChange = { band2 = it }, label = "Band 2", isTextOnly = true)
+            EngineerTextField(value = mult, onValueChange = { mult = it }, label = "Multiplier", isTextOnly = true)
         }
     }
 }
@@ -270,10 +271,10 @@ fun ACPowerCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = v, onValueChange = { v = it }, label = "V (rms)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = i, onValueChange = { i = it }, label = "I (rms)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = phase, onValueChange = { phase = it }, label = "Phase (°)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = v, onValueChange = { v = it }, label = "V (rms)")
+            EngineerTextField(value = i, onValueChange = { i = it }, label = "I (rms)")
+            EngineerTextField(value = phase, onValueChange = { phase = it }, label = "Phase (°)")
         }
     }
 }
@@ -302,9 +303,9 @@ fun OpAmpGainCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = rf, onValueChange = { rf = it }, label = "R_feedback", modifier = Modifier.weight(1f))
-            EngineerTextField(value = rin, onValueChange = { rin = it }, label = "R_in", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = rf, onValueChange = { rf = it }, label = "R_feedback")
+            EngineerTextField(value = rin, onValueChange = { rin = it }, label = "R_in")
         }
     }
 }
@@ -335,9 +336,9 @@ fun PCBTraceWidthCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = current, onValueChange = { current = it }, label = "Current (A)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = tempRise, onValueChange = { tempRise = it }, label = "Temp Rise (°C)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = current, onValueChange = { current = it }, label = "Current (A)")
+            EngineerTextField(value = tempRise, onValueChange = { tempRise = it }, label = "Temp Rise (°C)")
         }
     }
 }

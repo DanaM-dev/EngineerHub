@@ -38,10 +38,10 @@ fun IdealGasLawCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = volume, onValueChange = { volume = it }, label = "Volume V (m³)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = moles, onValueChange = { moles = it }, label = "Moles n (mol)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = tempK, onValueChange = { tempK = it }, label = "Temp T (K)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = volume, onValueChange = { volume = it }, label = "Volume V (m³)")
+            EngineerTextField(value = moles, onValueChange = { moles = it }, label = "Moles n (mol)")
+            EngineerTextField(value = tempK, onValueChange = { tempK = it }, label = "Temp T (K)")
         }
     }
 }
@@ -75,15 +75,11 @@ fun ConductionHeatCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = kCond, onValueChange = { kCond = it }, label = "k (W/m·K)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = deltaT, onValueChange = { deltaT = it }, label = "ΔT (°C or K)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = thickness, onValueChange = { thickness = it }, label = "Thickness d (m)", modifier = Modifier.weight(1f))
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = kCond, onValueChange = { kCond = it }, label = "k (W/m·K)")
+            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)")
+            EngineerTextField(value = deltaT, onValueChange = { deltaT = it }, label = "ΔT (°C or K)")
+            EngineerTextField(value = thickness, onValueChange = { thickness = it }, label = "Thickness d (m)")
         }
     }
 }
@@ -116,10 +112,10 @@ fun ConvectionHeatCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = hCoeff, onValueChange = { hCoeff = it }, label = "h (W/m²·K)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = deltaT, onValueChange = { deltaT = it }, label = "ΔT (°C or K)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = hCoeff, onValueChange = { hCoeff = it }, label = "h (W/m²·K)")
+            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)")
+            EngineerTextField(value = deltaT, onValueChange = { deltaT = it }, label = "ΔT (°C or K)")
         }
     }
 }
@@ -150,9 +146,9 @@ fun CarnotEfficiencyCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = tempCold, onValueChange = { tempCold = it }, label = "T_Cold (K)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = tempHot, onValueChange = { tempHot = it }, label = "T_Hot (K)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = tempCold, onValueChange = { tempCold = it }, label = "T_Cold (K)")
+            EngineerTextField(value = tempHot, onValueChange = { tempHot = it }, label = "T_Hot (K)")
         }
     }
 }
@@ -192,15 +188,11 @@ fun ReynoldsNumberCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Diameter D (m)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = viscosity, onValueChange = { viscosity = it }, label = "Viscosity μ (Pa·s)", modifier = Modifier.weight(1f))
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)")
+            EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)")
+            EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Diameter D (m)")
+            EngineerTextField(value = viscosity, onValueChange = { viscosity = it }, label = "Viscosity μ (Pa·s)")
         }
     }
 }
@@ -237,15 +229,11 @@ fun BernoulliPressureCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = deltaH, onValueChange = { deltaH = it }, label = "Δh (h₂ - h₁) (m)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = v1, onValueChange = { v1 = it }, label = "v₁ (m/s)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = v2, onValueChange = { v2 = it }, label = "v₂ (m/s)", modifier = Modifier.weight(1f))
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)")
+            EngineerTextField(value = deltaH, onValueChange = { deltaH = it }, label = "Δh (h₂ - h₁) (m)")
+            EngineerTextField(value = v1, onValueChange = { v1 = it }, label = "v₁ (m/s)")
+            EngineerTextField(value = v2, onValueChange = { v2 = it }, label = "v₂ (m/s)")
         }
     }
 }
@@ -277,9 +265,9 @@ fun FlowRateCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Pipe Diameter D (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Pipe Diameter D (m)")
+            EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)")
         }
     }
 }

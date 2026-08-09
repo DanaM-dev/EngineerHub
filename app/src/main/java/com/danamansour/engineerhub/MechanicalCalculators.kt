@@ -1,17 +1,8 @@
 package com.danamansour.engineerhub
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.pow
@@ -41,9 +32,9 @@ fun StressCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = force, onValueChange = { force = it }, label = "Force (N)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area (m²)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = force, onValueChange = { force = it }, label = "Force (N)")
+            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area (m²)")
         }
     }
 }
@@ -74,9 +65,9 @@ fun StrainCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = deltaL, onValueChange = { deltaL = it }, label = "ΔL (Elongation)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = originalL, onValueChange = { originalL = it }, label = "L₀ (Original Length)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = deltaL, onValueChange = { deltaL = it }, label = "ΔL (Elongation)")
+            EngineerTextField(value = originalL, onValueChange = { originalL = it }, label = "L₀ (Original Length)")
         }
     }
 }
@@ -106,9 +97,9 @@ fun YoungsModulusCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = stress, onValueChange = { stress = it }, label = "Stress σ (Pa)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = strain, onValueChange = { strain = it }, label = "Strain ε (Unitless)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = stress, onValueChange = { stress = it }, label = "Stress σ (Pa)")
+            EngineerTextField(value = strain, onValueChange = { strain = it }, label = "Strain ε (Unitless)")
         }
     }
 }
@@ -139,10 +130,10 @@ fun BendingStressCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = moment, onValueChange = { moment = it }, label = "M (N·m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = distanceY, onValueChange = { distanceY = it }, label = "y (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = inertiaI, onValueChange = { inertiaI = it }, label = "I (m⁴)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = moment, onValueChange = { moment = it }, label = "M (N·m)")
+            EngineerTextField(value = distanceY, onValueChange = { distanceY = it }, label = "y (m)")
+            EngineerTextField(value = inertiaI, onValueChange = { inertiaI = it }, label = "I (m⁴)")
         }
     }
 }
@@ -173,10 +164,10 @@ fun TorsionShearStressCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = torque, onValueChange = { torque = it }, label = "Torque T (N·m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = radius, onValueChange = { radius = it }, label = "Radius r (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = polarJ, onValueChange = { polarJ = it }, label = "Polar J (m⁴)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = torque, onValueChange = { torque = it }, label = "Torque T (N·m)")
+            EngineerTextField(value = radius, onValueChange = { radius = it }, label = "Radius r (m)")
+            EngineerTextField(value = polarJ, onValueChange = { polarJ = it }, label = "Polar J (m⁴)")
         }
     }
 }
@@ -224,15 +215,10 @@ fun AreaMomentOfInertiaCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = base, onValueChange = { base = it }, label = "Base b (m)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = height, onValueChange = { height = it }, label = "Height h (m)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Circle Diameter d (m)", modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.weight(1f)) // Empty slot to complete 2x2 symmetry
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = base, onValueChange = { base = it }, label = "Base b (m)")
+            EngineerTextField(value = height, onValueChange = { height = it }, label = "Height h (m)")
+            EngineerTextField(value = diameter, onValueChange = { diameter = it }, label = "Circle Diameter d (m)")
         }
     }
 }
@@ -265,9 +251,9 @@ fun TorqueToPowerCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = torque, onValueChange = { torque = it }, label = "Torque τ (N·m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = rpm, onValueChange = { rpm = it }, label = "Speed (RPM)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = torque, onValueChange = { torque = it }, label = "Torque τ (N·m)")
+            EngineerTextField(value = rpm, onValueChange = { rpm = it }, label = "Speed (RPM)")
         }
     }
 }
@@ -305,10 +291,10 @@ fun GearRatioCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = n1, onValueChange = { n1 = it }, label = "N1 (Driver)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = n2, onValueChange = { n2 = it }, label = "N2 (Driven)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = speedIn, onValueChange = { speedIn = it }, label = "In Speed (RPM)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = n1, onValueChange = { n1 = it }, label = "N1 (Driver)")
+            EngineerTextField(value = n2, onValueChange = { n2 = it }, label = "N2 (Driven)")
+            EngineerTextField(value = speedIn, onValueChange = { speedIn = it }, label = "In Speed (RPM)")
         }
     }
 }
@@ -340,10 +326,10 @@ fun ThermalExpansionCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = alpha, onValueChange = { alpha = it }, label = "α (1/°C)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = length, onValueChange = { length = it }, label = "L₀ (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = tempChange, onValueChange = { tempChange = it }, label = "ΔT (°C)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = alpha, onValueChange = { alpha = it }, label = "α (1/°C)")
+            EngineerTextField(value = length, onValueChange = { length = it }, label = "L₀ (m)")
+            EngineerTextField(value = tempChange, onValueChange = { tempChange = it }, label = "ΔT (°C)")
         }
     }
 }

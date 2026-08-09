@@ -35,10 +35,10 @@ fun EoqCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = demand, onValueChange = { demand = it }, label = "Demand D (units)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = setupCost, onValueChange = { setupCost = it }, label = "Order Cost S ($)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = holdingCost, onValueChange = { holdingCost = it }, label = "Holding H ($)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = demand, onValueChange = { demand = it }, label = "Demand D (units)")
+            EngineerTextField(value = setupCost, onValueChange = { setupCost = it }, label = "Order Cost S ($)")
+            EngineerTextField(value = holdingCost, onValueChange = { holdingCost = it }, label = "Holding H ($)")
         }
     }
 }
@@ -72,10 +72,10 @@ fun OeeCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = availabilityPercent, onValueChange = { availabilityPercent = it }, label = "Availability (%)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = performancePercent, onValueChange = { performancePercent = it }, label = "Performance (%)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = qualityPercent, onValueChange = { qualityPercent = it }, label = "Quality (%)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = availabilityPercent, onValueChange = { availabilityPercent = it }, label = "Availability (%)")
+            EngineerTextField(value = performancePercent, onValueChange = { performancePercent = it }, label = "Performance (%)")
+            EngineerTextField(value = qualityPercent, onValueChange = { qualityPercent = it }, label = "Quality (%)")
         }
     }
 }
@@ -108,9 +108,9 @@ fun TaktTimeCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = availableTimeSec, onValueChange = { availableTimeSec = it }, label = "Avail. Time (sec)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = customerDemand, onValueChange = { customerDemand = it }, label = "Demand (units)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = availableTimeSec, onValueChange = { availableTimeSec = it }, label = "Avail. Time (sec)")
+            EngineerTextField(value = customerDemand, onValueChange = { customerDemand = it }, label = "Demand (units)")
         }
     }
 }
@@ -145,10 +145,10 @@ fun BreakEvenCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = fixedCosts, onValueChange = { fixedCosts = it }, label = "Fixed Costs ($)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = pricePerUnit, onValueChange = { pricePerUnit = it }, label = "Price ($)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = variableCostPerUnit, onValueChange = { variableCostPerUnit = it }, label = "Var Cost ($)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = fixedCosts, onValueChange = { fixedCosts = it }, label = "Fixed Costs ($)")
+            EngineerTextField(value = pricePerUnit, onValueChange = { pricePerUnit = it }, label = "Price ($)")
+            EngineerTextField(value = variableCostPerUnit, onValueChange = { variableCostPerUnit = it }, label = "Var Cost ($)")
         }
     }
 }

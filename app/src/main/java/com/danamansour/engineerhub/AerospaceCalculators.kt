@@ -8,8 +8,6 @@ import kotlin.math.log10
 import kotlin.math.pow
 
 
-
-
 @Composable
 fun AerodynamicLiftDragCalculator() {
     var density by remember { mutableStateOf("") }
@@ -41,15 +39,11 @@ fun AerodynamicLiftDragCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = coeff, onValueChange = { coeff = it }, label = "Coeff C_L / C_D", modifier = Modifier.weight(1f))
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = density, onValueChange = { density = it }, label = "Density ρ (kg/m³)")
+            EngineerTextField(value = velocity, onValueChange = { velocity = it }, label = "Velocity v (m/s)")
+            EngineerTextField(value = area, onValueChange = { area = it }, label = "Area A (m²)")
+            EngineerTextField(value = coeff, onValueChange = { coeff = it }, label = "Coeff C_L / C_D")
         }
     }
 }
@@ -85,8 +79,7 @@ fun StandardAtmosphereCalculator() {
         EngineerTextField(
             value = altitudeMeters,
             onValueChange = { altitudeMeters = it },
-            label = "Altitude h (m)",
-            modifier = Modifier.fillMaxWidth()
+            label = "Altitude h (m)"
         )
     }
 }
@@ -104,7 +97,7 @@ fun RocketThrustCalculator() {
 
     EngineerCalculatorTemplate(
         title = "Rocket Thrust Equation",
-        subtitle = "F = (ṁ · v_e) + (P_e - P_a) · A_e",
+        subtitle = "F = (ṁ · v_e) + (P_e - P_a) · A_e",
         onCalculate = {
             val m = mDot.toDoubleOrNull()
             val ve = vExit.toDoubleOrNull()
@@ -125,16 +118,12 @@ fun RocketThrustCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = mDot, onValueChange = { mDot = it }, label = "ṁ Mass Flow (kg/s)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = vExit, onValueChange = { vExit = it }, label = "v_e Exit Vel (m/s)", modifier = Modifier.weight(1f))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                EngineerTextField(value = pExit, onValueChange = { pExit = it }, label = "P_e Exit Press (Pa)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = pAmb, onValueChange = { pAmb = it }, label = "P_a Amb Press (Pa)", modifier = Modifier.weight(1f))
-                EngineerTextField(value = areaExit, onValueChange = { areaExit = it }, label = "A_e Nozzle (m²)", modifier = Modifier.weight(1f))
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = mDot, onValueChange = { mDot = it }, label = "ṁ Mass Flow (kg/s)")
+            EngineerTextField(value = vExit, onValueChange = { vExit = it }, label = "v_e Exit Vel (m/s)")
+            EngineerTextField(value = pExit, onValueChange = { pExit = it }, label = "P_e Exit Press (Pa)")
+            EngineerTextField(value = pAmb, onValueChange = { pAmb = it }, label = "P_a Amb Press (Pa)")
+            EngineerTextField(value = areaExit, onValueChange = { areaExit = it }, label = "A_e Nozzle (m²)")
         }
     }
 }
@@ -172,8 +161,7 @@ fun AqiCalculator() {
         EngineerTextField(
             value = pm25Conc,
             onValueChange = { pm25Conc = it },
-            label = "PM2.5 Concentration (μg/m³)",
-            modifier = Modifier.fillMaxWidth()
+            label = "PM2.5 Concentration (μg/m³)"
         )
     }
 }
@@ -214,9 +202,9 @@ fun NoiseLevelCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = pressurePascals, onValueChange = { pressurePascals = it }, label = "Pressure P (Pa)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = soundDbm, onValueChange = { soundDbm = it }, label = "Sound Level (dBSPL)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = pressurePascals, onValueChange = { pressurePascals = it }, label = "Pressure P (Pa)")
+            EngineerTextField(value = soundDbm, onValueChange = { soundDbm = it }, label = "Sound Level (dBSPL)")
         }
     }
 }

@@ -46,9 +46,9 @@ fun SubnetCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = ipAddress, onValueChange = { ipAddress = it }, label = "IP (e.g. 192.168.1.10)", isTextOnly = true, modifier = Modifier.weight(2f))
-            EngineerTextField(value = cidrInput, onValueChange = { cidrInput = it }, label = "CIDR (0-32)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = ipAddress, onValueChange = { ipAddress = it }, label = "IP (e.g. 192.168.1.10)", isTextOnly = true)
+            EngineerTextField(value = cidrInput, onValueChange = { cidrInput = it }, label = "CIDR (0-32)")
         }
     }
 }
@@ -80,9 +80,9 @@ fun ShannonCapacityCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = bandwidth, onValueChange = { bandwidth = it }, label = "Bandwidth B (Hz)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = snrDb, onValueChange = { snrDb = it }, label = "SNR (dB)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = bandwidth, onValueChange = { bandwidth = it }, label = "Bandwidth B (Hz)")
+            EngineerTextField(value = snrDb, onValueChange = { snrDb = it }, label = "SNR (dB)")
         }
     }
 }
@@ -112,9 +112,9 @@ fun FSPLCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = distanceKm, onValueChange = { distanceKm = it }, label = "Distance d (km)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = freqMhz, onValueChange = { freqMhz = it }, label = "Frequency f (MHz)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = distanceKm, onValueChange = { distanceKm = it }, label = "Distance d (km)")
+            EngineerTextField(value = freqMhz, onValueChange = { freqMhz = it }, label = "Frequency f (MHz)")
         }
     }
 }
@@ -150,9 +150,9 @@ fun DataTransferCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = fileSizeMB, onValueChange = { fileSizeMB = it }, label = "File Size (MB)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = speedMbps, onValueChange = { speedMbps = it }, label = "Speed (Mbps)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = fileSizeMB, onValueChange = { fileSizeMB = it }, label = "File Size (MB)")
+            EngineerTextField(value = speedMbps, onValueChange = { speedMbps = it }, label = "Speed (Mbps)")
         }
     }
 }
@@ -188,9 +188,9 @@ fun DbmWattsCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = dbmInput, onValueChange = { dbmInput = it }, label = "Power (dBm)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = wattsInput, onValueChange = { wattsInput = it }, label = "Power (Watts)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = dbmInput, onValueChange = { dbmInput = it }, label = "Power (dBm)")
+            EngineerTextField(value = wattsInput, onValueChange = { wattsInput = it }, label = "Power (Watts)")
         }
     }
 }
@@ -229,9 +229,9 @@ fun LogicGateCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = inputA, onValueChange = { inputA = it }, label = "Input A (0 or 1)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = inputB, onValueChange = { inputB = it }, label = "Input B (0 or 1)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = inputA, onValueChange = { inputA = it }, label = "Input A (0 or 1)")
+            EngineerTextField(value = inputB, onValueChange = { inputB = it }, label = "Input B (0 or 1)")
         }
     }
 }

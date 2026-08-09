@@ -8,7 +8,6 @@ import kotlin.math.pow
 import kotlin.math.sin
 
 
-
 @Composable
 fun RebarWeightCalculator() {
     var diameterMm by remember { mutableStateOf("") }
@@ -35,9 +34,9 @@ fun RebarWeightCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            EngineerTextField(value = diameterMm, onValueChange = { diameterMm = it }, label = "Diameter d (mm)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = lengthMeters, onValueChange = { lengthMeters = it }, label = "Length L (m)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = diameterMm, onValueChange = { diameterMm = it }, label = "Diameter d (mm)")
+            EngineerTextField(value = lengthMeters, onValueChange = { lengthMeters = it }, label = "Length L (m)")
         }
     }
 }
@@ -70,10 +69,10 @@ fun ConcreteVolumeCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = lengthM, onValueChange = { lengthM = it }, label = "Length (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = widthM, onValueChange = { widthM = it }, label = "Width (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = depthM, onValueChange = { depthM = it }, label = "Depth (m)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = lengthM, onValueChange = { lengthM = it }, label = "Length (m)")
+            EngineerTextField(value = widthM, onValueChange = { widthM = it }, label = "Width (m)")
+            EngineerTextField(value = depthM, onValueChange = { depthM = it }, label = "Depth (m)")
         }
     }
 }
@@ -106,10 +105,10 @@ fun ManningsFlowCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = manningN, onValueChange = { manningN = it }, label = "Manning n", modifier = Modifier.weight(1f))
-            EngineerTextField(value = hydraulicRadius, onValueChange = { hydraulicRadius = it }, label = "R_h (m)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = slope, onValueChange = { slope = it }, label = "Slope S (m/m)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = manningN, onValueChange = { manningN = it }, label = "Manning n")
+            EngineerTextField(value = hydraulicRadius, onValueChange = { hydraulicRadius = it }, label = "R_h (m)")
+            EngineerTextField(value = slope, onValueChange = { slope = it }, label = "Slope S (m/m)")
         }
     }
 }
@@ -148,10 +147,10 @@ fun EarthPressureCalculator() {
         resultText = result,
         isError = isError
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            EngineerTextField(value = frictionAngleDeg, onValueChange = { frictionAngleDeg = it }, label = "Friction ϕ (°)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = unitWeight, onValueChange = { unitWeight = it }, label = "Soil γ (kN/m³)", modifier = Modifier.weight(1f))
-            EngineerTextField(value = wallHeight, onValueChange = { wallHeight = it }, label = "Height H (m)", modifier = Modifier.weight(1f))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            EngineerTextField(value = frictionAngleDeg, onValueChange = { frictionAngleDeg = it }, label = "Friction ϕ (°)")
+            EngineerTextField(value = unitWeight, onValueChange = { unitWeight = it }, label = "Soil γ (kN/m³)")
+            EngineerTextField(value = wallHeight, onValueChange = { wallHeight = it }, label = "Height H (m)")
         }
     }
 }
