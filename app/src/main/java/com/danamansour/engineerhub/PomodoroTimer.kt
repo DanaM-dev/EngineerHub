@@ -66,9 +66,9 @@ fun PomodoroScreen() {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(24.dp),
+            .padding(45.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(36.dp)
     ) {
         Text(
             text = "Pomodoro Study Hub",
@@ -96,7 +96,7 @@ fun PomodoroScreen() {
                         contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
                     ),
                     border = ButtonDefaults.outlinedButtonBorder.copy(
-                        brush = Brush.linearGradient(listOf(GradientEnd, GradientStart))
+                        brush = Brush.linearGradient(listOf(GradientEnd, primaryColor))
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
@@ -134,8 +134,8 @@ fun PomodoroScreen() {
 
 
                 val arcGradient = Brush.sweepGradient(
-                    colors = listOf(gradientStart, primaryColor, gradientEnd, gradientStart)
-                )
+                    colors = listOf( primaryColor, gradientEnd , primaryColor , GradientEnd))
+
 
                 drawArc(
                     brush = arcGradient,

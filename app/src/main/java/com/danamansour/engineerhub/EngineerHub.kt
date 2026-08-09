@@ -167,7 +167,7 @@ fun EngineerHubApp() {
                     )
                 )
                 NavigationDrawerItem(
-                        label = { Text("Thermodynamics Hub",fontFamily = FontFamily.SansSerif) },
+                        label = { Text("Thermo Hub",fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Thermostat,
@@ -192,7 +192,7 @@ fun EngineerHubApp() {
 
 
                 NavigationDrawerItem(
-                    label = { Text("Telecommunication Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Telecom Hub",fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Router,

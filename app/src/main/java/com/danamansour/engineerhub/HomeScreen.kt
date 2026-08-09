@@ -88,7 +88,7 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                 .offset(y = (-48).dp)
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(GradientStart, GradientEnd)
+                        colors = listOf(GradientEnd,Color(0xFF0061A4),GradientEnd,Color(0xFF0061A4) )
                     ),
                     shape = WavyHeaderShape()
                 )
@@ -110,7 +110,7 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp), // Slight push down to clear the menu icon
+                    .padding(top = 24.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {

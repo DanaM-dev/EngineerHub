@@ -93,7 +93,7 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Days of the week in crisp Blue
+
         val daysOfWeek = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -107,7 +107,7 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
                     textAlign = TextAlign.Center,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 12.sp,
-                    color = CalendarHighlight
+                    color = GradientEnd
                 )
             }
         }
@@ -139,8 +139,8 @@ fun AcademicCalendarCard(onDateSelected: (String) -> Unit) {
                                 .padding(4.dp),
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isToday) CalendarHighlight else Color.Transparent,
-                                contentColor = if (isToday) Color.White else CalendarHighlight, // Blue numbers for regular days
+                                containerColor = if (isToday) GradientEnd else Color.Transparent,
+                                contentColor = if (isToday) Color.White else GradientEnd, // Blue numbers for regular days
                             ),
                             contentPadding = PaddingValues(0.dp)
                         ) {
