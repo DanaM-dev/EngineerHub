@@ -123,7 +123,8 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            AcademicCalendarCard(onDateSelected = { date ->
+            AcademicCalendarCard(events = eventList,
+                onDateSelected = { date ->
                 selectedDate = date
                 showAddDialog = true
             })
