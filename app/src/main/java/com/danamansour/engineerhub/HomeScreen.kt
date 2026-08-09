@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -23,7 +24,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.Locale
 
 val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
 val CalendarHighlight = Color(0xFF29B6F6) // bright blue
@@ -44,6 +50,9 @@ data class EngineerEvent(
 fun HomeScreen(viewModel: EventViewModel,
     onMenuClick: () -> Unit = {}) {
     val eventList by viewModel.allEvents.collectAsState()
+    val (passedEvents, upcomingEvents) = remember(eventList) {
+        eventList.partition { isPastEvent(it.date) }
+    }
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf("Today") }
     var customDescription by remember { mutableStateOf("") }
@@ -147,8 +156,7 @@ fun HomeScreen(viewModel: EventViewModel,
 
             Spacer(modifier = Modifier.height(16.dp))
 
-
-            if (eventList.isEmpty()) {
+            if (upcomingEvents.isEmpty()) {
                 OutlinedCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
@@ -171,11 +179,56 @@ fun HomeScreen(viewModel: EventViewModel,
                 }
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    for (event in eventList) {
+                    for (event in upcomingEvents) {
                         EventCard(
                             event = event,
                             onDelete = { viewModel.removeEvent(event) }
                         )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+            Text(
+                text = "Past Events",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
+                color = TextPrimaryDark,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (passedEvents.isEmpty()) {
+                OutlinedCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.outlinedCardColors(containerColor = Color(0xFFF9FAFB)),
+                    border = BorderStroke(1.dp, Color(0xFFEEEEEE))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "No past events recorded.",
+                            color = TextSoftGray,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    for (event in passedEvents) {
+                        Box(modifier = Modifier.alpha(0.8f)) {
+                            EventCard(
+                                event = event,
+                                onDelete = { viewModel.removeEvent(event) }
+                            )
+                        }
                     }
                 }
             }
@@ -411,4 +464,55 @@ fun EventCard(
             }
         }
     }
+}
+
+
+fun isPastEvent(dateString: String): Boolean {
+    if (dateString.isBlank()) return false
+    val trimmedDate = dateString.trim()
+
+
+    val epochMillis = trimmedDate.toLongOrNull()
+    if (epochMillis != null) {
+        val eventDate = Instant.ofEpochMilli(epochMillis)
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+        return eventDate.isBefore(LocalDate.now())
+    }
+
+    try {
+        if (trimmedDate.contains("T")) {
+            val eventDate = Instant.parse(trimmedDate)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+            return eventDate.isBefore(LocalDate.now())
+        }
+    } catch (e: Exception) {
+
+    }
+
+
+    val formatters = listOf(
+        DateTimeFormatter.ISO_LOCAL_DATE, //
+        DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+        DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+        DateTimeFormatter.ofPattern("d/M/yyyy"),
+        DateTimeFormatter.ofPattern("MM/dd/yyyy"),
+        DateTimeFormatter.ofPattern("M/d/yyyy"),
+        DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("MMM d, yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH)
+    )
+
+    for (formatter in formatters) {
+        try {
+            val eventDate = LocalDate.parse(trimmedDate, formatter)
+            return eventDate.isBefore(LocalDate.now())
+        } catch (e: DateTimeParseException) {
+            // Keep trying other formats
+        }
+    }
+
+    return false
 }
