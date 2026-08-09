@@ -1,5 +1,5 @@
 package com.danamansour.engineerhub
-
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Spacer
@@ -45,6 +45,7 @@ import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.SwapHoriz
 import androidx.compose.material.icons.outlined.Thermostat
 import androidx.compose.material.icons.outlined.Timer
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,7 +80,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "home",
                     onClick = {
                         currentScreen = "home"
-                        navController.navigate(Screen.Dashboard)
+                        navController.navigateToTop(Screen.Dashboard)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -104,7 +105,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "electrical",
                     onClick = {
                         currentScreen = "electrical"
-                        navController.navigate(Screen.Electrical)
+                        navController.navigateToTop(Screen.Electrical)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -129,7 +130,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "mechanical",
                     onClick = {
                         currentScreen = "mechanical"
-                        navController.navigate(Screen.Mechanical)
+                        navController.navigateToTop(Screen.Mechanical)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -154,7 +155,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "chemical",
                     onClick = {
                         currentScreen = "chemical"
-                        navController.navigate(Screen.Chemical)
+                        navController.navigateToTop(Screen.Chemical)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -177,7 +178,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "thermo",
                     onClick = {
                         currentScreen = "thermo"
-                        navController.navigate(Screen.Thermo)
+                        navController.navigateToTop(Screen.Thermo)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -202,7 +203,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "telecom",
                     onClick = {
                         currentScreen = "telecom"
-                        navController.navigate(Screen.Telecom)
+                        navController.navigateToTop(Screen.Telecom)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -227,7 +228,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "civil",
                     onClick = {
                         currentScreen = "civil"
-                        navController.navigate(Screen.Civil)
+                        navController.navigateToTop(Screen.Civil)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -252,7 +253,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "industrial",
                     onClick = {
                         currentScreen = "industrial"
-                        navController.navigate(Screen.Industrial)
+                        navController.navigateToTop(Screen.Industrial)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -277,7 +278,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "aerospace",
                     onClick = {
                         currentScreen = "aerospace"
-                        navController.navigate(Screen.Aerospace)
+                        navController.navigateToTop(Screen.Aerospace)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -302,7 +303,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "unit_converter",
                     onClick = {
                         currentScreen = "unit_converter"
-                        navController.navigate(Screen.UnitConverter)
+                        navController.navigateToTop(Screen.UnitConverter)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -327,7 +328,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "constants_sheet",
                     onClick = {
                         currentScreen = "constants_sheet"
-                        navController.navigate(Screen.ConstantsSheet)
+                        navController.navigateToTop(Screen.ConstantsSheet)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -351,7 +352,7 @@ fun EngineerHubApp() {
                     selected = currentScreen == "pomodoro",
                     onClick = {
                         currentScreen = "pomodoro"
-                        navController.navigate(Screen.Pomodoro)
+                        navController.navigateToTop(Screen.Pomodoro)
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
@@ -417,5 +418,18 @@ fun EngineerHubApp() {
                 }
             }
         }
+    }
+}
+
+
+
+
+fun NavHostController.navigateToTop(route: String) {
+    navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
 }
