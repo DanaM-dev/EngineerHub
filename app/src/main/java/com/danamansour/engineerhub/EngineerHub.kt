@@ -1,12 +1,25 @@
 package com.danamansour.engineerhub
-import androidx.navigation.NavGraph.Companion.findStartDestination
+
 import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Engineering
+import androidx.compose.material.icons.outlined.Factory
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.RocketLaunch
+import androidx.compose.material.icons.outlined.Router
+import androidx.compose.material.icons.outlined.Science
+import androidx.compose.material.icons.outlined.SwapHoriz
+import androidx.compose.material.icons.outlined.Thermostat
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,38 +38,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Engineering
-import androidx.compose.material.icons.outlined.Factory
-import androidx.compose.material.icons.outlined.MenuBook
-import androidx.compose.material.icons.outlined.RocketLaunch
-import androidx.compose.material.icons.outlined.Router
-import androidx.compose.material.icons.outlined.Science
-import androidx.compose.material.icons.outlined.SwapHoriz
-import androidx.compose.material.icons.outlined.Thermostat
-import androidx.compose.material.icons.outlined.Timer
-import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EngineerHubApp() {
+fun EngineerHubApp(
+    eventViewModel: EventViewModel = viewModel()
+) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var currentScreen by remember { mutableStateOf("home") }
     val LightBlueMain = Color(0xFFBBDEFB)
     val DarkBlueText = Color(0xFF0D47A1)
-
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -70,7 +73,7 @@ fun EngineerHubApp() {
                 )
 
                 NavigationDrawerItem(
-                    label = { Text("Dashboard",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Dashboard", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Home,
@@ -95,7 +98,7 @@ fun EngineerHubApp() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("Electrical Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Electrical Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Bolt,
@@ -120,7 +123,7 @@ fun EngineerHubApp() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 NavigationDrawerItem(
-                    label = { Text("Mechanical Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Mechanical Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Settings,
@@ -143,9 +146,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Chemical Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Chemical Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Science,
@@ -167,8 +169,9 @@ fun EngineerHubApp() {
                         unselectedIconColor = DarkBlueText
                     )
                 )
+
                 NavigationDrawerItem(
-                        label = { Text("Thermo Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Thermo Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Thermostat,
@@ -191,9 +194,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Telecom Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Telecom Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Router,
@@ -216,9 +218,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Civil Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Civil Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Engineering,
@@ -241,9 +242,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Industrial Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Industrial Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Factory,
@@ -266,9 +266,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Aerospace Hub",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Aerospace Hub", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.RocketLaunch,
@@ -291,9 +290,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Unit Converter",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Unit Converter", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.SwapHoriz,
@@ -316,9 +314,8 @@ fun EngineerHubApp() {
                     )
                 )
 
-
                 NavigationDrawerItem(
-                    label = { Text("Constants Sheet",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Constants Sheet", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.MenuBook,
@@ -342,7 +339,7 @@ fun EngineerHubApp() {
                 )
 
                 NavigationDrawerItem(
-                    label = { Text("Pomodoro Timer",fontFamily = FontFamily.SansSerif) },
+                    label = { Text("Pomodoro Timer", fontFamily = FontFamily.SansSerif) },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Timer,
@@ -381,7 +378,10 @@ fun EngineerHubApp() {
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable(Screen.Dashboard) {
-                    HomeScreen(onMenuClick = { scope.launch { drawerState.open() } })
+                    HomeScreen(
+                        viewModel = eventViewModel,
+                        onMenuClick = { scope.launch { drawerState.open() } }
+                    )
                 }
                 composable(Screen.Electrical) {
                     ElectricalScreen()
@@ -420,9 +420,6 @@ fun EngineerHubApp() {
         }
     }
 }
-
-
-
 
 fun NavHostController.navigateToTop(route: String) {
     navigate(route) {

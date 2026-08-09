@@ -20,6 +20,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.time.LocalDate
 
 val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
@@ -28,15 +31,19 @@ val CalendarHighlight = Color(0xFF29B6F6) // bright blue
 val TextPrimaryDark = Color(0xFF4A4A4A) // Soft dark gray for main text
 val TextSoftGray = Color(0xFF9E9E9E) // Light gray for inactive text
 
+@Entity(tableName = "events_table")
 data class EngineerEvent(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val date: String,
     val category: String,
     val description: String
 )
 
 @Composable
-fun HomeScreen(onMenuClick: () -> Unit = {}) {
-    val eventList = remember { mutableStateListOf<EngineerEvent>() }
+fun HomeScreen(viewModel: EventViewModel,
+    onMenuClick: () -> Unit = {}) {
+    val eventList by viewModel.allEvents.collectAsState()
     var showAddDialog by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf("Today") }
     var customDescription by remember { mutableStateOf("") }
@@ -167,7 +174,7 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                     for (event in eventList) {
                         EventCard(
                             event = event,
-                            onDelete = { eventList.remove(event) }
+                            onDelete = { viewModel.removeEvent(event) }
                         )
                     }
                 }
@@ -282,14 +289,13 @@ fun HomeScreen(onMenuClick: () -> Unit = {}) {
                             "Quiz" -> "Pop Quiz"
                             else -> "Revision"
                         }
-
-                        eventList.add(
+                        viewModel.addEvent(
                             EngineerEvent(
-                                selectedDate,
-                                selectedCategory,
-                                customDescription.ifEmpty { defaultDesc })
+                                date = selectedDate,
+                                category = selectedCategory,
+                                description = customDescription.ifEmpty { defaultDesc }
+                            )
                         )
-
                         customDescription = ""
                         selectedCategory = "Exam"
                         showAddDialog = false
