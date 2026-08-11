@@ -47,7 +47,7 @@ fun AcademicCalendarCard(
                 onClick = { displayedYearMonth = displayedYearMonth.minusMonths(1) },
                 modifier = Modifier
                     .size(36.dp)
-                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+                    .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, CircleShape)
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
@@ -61,7 +61,7 @@ fun AcademicCalendarCard(
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = TextPrimaryDark,
+                color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
 
@@ -69,7 +69,7 @@ fun AcademicCalendarCard(
                 onClick = { displayedYearMonth = displayedYearMonth.plusMonths(1) },
                 modifier = Modifier
                     .size(36.dp)
-                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+                    .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, CircleShape)
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
@@ -80,7 +80,6 @@ fun AcademicCalendarCard(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         val daysOfWeek = listOf("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT")
         Row(
@@ -95,13 +94,12 @@ fun AcademicCalendarCard(
                     textAlign = TextAlign.Center,
                     fontFamily = FontFamily.SansSerif,
                     fontSize = 12.sp,
-                    color = GradientEnd
+                    color = CalendarHighlight
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         val gridItems = List(emptySpacesBeforeStart) { null } + (1..totalDays).toList()
         val columns = 7
@@ -133,7 +131,7 @@ fun AcademicCalendarCard(
                             shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (isToday) GradientEnd else Color.Transparent,
-                                contentColor = if (isToday) Color.White else GradientEnd
+                                contentColor = if (isToday) Color.White else MaterialTheme.colorScheme.onSurface
                             ),
                             contentPadding = PaddingValues(0.dp)
                         ) {
@@ -147,7 +145,6 @@ fun AcademicCalendarCard(
                                     fontSize = 14.sp
                                 )
 
-
                                 if (dayEvents.isNotEmpty()) {
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Row(
@@ -159,10 +156,10 @@ fun AcademicCalendarCard(
                                                 Color.White
                                             } else {
                                                 when (event.category) {
-                                                    "Exam" -> Color(0xFFD32F2F)
-                                                    "Quiz" -> Color(0xFFF57C00)
-                                                    "Project" -> Color(0xFF0288D1)
-                                                    else -> Color(0xFF388E3C)
+                                                    "Exam" -> Color(0xFFEF5350)
+                                                    "Quiz" -> Color(0xFFFFA726)
+                                                    "Project" -> Color(0xFF29B6F6)
+                                                    else -> Color(0xFF66BB6A)
                                                 }
                                             }
 

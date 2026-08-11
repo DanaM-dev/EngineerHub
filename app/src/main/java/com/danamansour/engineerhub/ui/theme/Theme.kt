@@ -32,14 +32,20 @@ private val LightColorScheme = lightColorScheme(
     surfaceVariant = Color(0xFFDFE2E6),
     onSurfaceVariant = Color(0xFF43474E)
 )
-
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF9ECAFF),
-    onPrimary = Color(0xFF003258),
-    primaryContainer = Color(0xFF00497D),
-    onPrimaryContainer = Color(0xFFD1E4FF),
-    surface = Color(0xFF1A1C1E),
-    onSurface = Color(0xFFE2E2E5)
+    primary = Color(0xFF82B1FF),
+    onPrimary = Color(0xFF002D54),
+    primaryContainer = Color(0xFF00467A),
+    onPrimaryContainer = Color(0xFFD6E4FF),
+
+    background = Color(0xFF0B132B),
+    onBackground = Color(0xFFE0E6ED),
+
+    surface = Color(0xFF1C2541),
+    onSurface = Color(0xFFE0E6ED),
+
+    surfaceVariant = Color(0xFF232F4D),
+    onSurfaceVariant = Color(0xFFA6B4C9)
 )
 
 @Composable
@@ -72,4 +78,7 @@ fun EngineerHubTheme(
         typography = Typography,
         content = content
     )
+}
+enum class ThemeSetting {
+    SYSTEM, LIGHT, DARK
 }

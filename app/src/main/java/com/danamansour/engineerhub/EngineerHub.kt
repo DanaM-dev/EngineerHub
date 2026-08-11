@@ -47,11 +47,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.danamansour.engineerhub.ui.theme.ThemeSetting
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EngineerHubApp(
+    currentTheme: ThemeSetting,
+    onThemeChange: (ThemeSetting) -> Unit,
     eventViewModel: EventViewModel = viewModel()
 ) {
     val navController = rememberNavController()
@@ -87,12 +90,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -112,12 +116,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -137,12 +142,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -160,13 +166,15 @@ fun EngineerHubApp(
                         navController.navigateToTop(Screen.Chemical)
                         scope.launch { drawerState.close() }
                     },
+
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -185,12 +193,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -209,12 +218,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -233,12 +243,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -257,12 +268,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -281,12 +293,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -305,12 +318,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -329,12 +343,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
 
@@ -353,12 +368,13 @@ fun EngineerHubApp(
                         scope.launch { drawerState.close() }
                     },
                     colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = LightBlueMain,
-                        unselectedContainerColor = Color.Transparent,
-                        selectedTextColor = DarkBlueText,
-                        unselectedTextColor = Color.Black,
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         selectedIconColor = Color.White,
-                        unselectedIconColor = DarkBlueText
+
+                        unselectedContainerColor = Color.Transparent,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary
                     )
                 )
             }

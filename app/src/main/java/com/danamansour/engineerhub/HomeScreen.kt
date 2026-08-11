@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.Instant
@@ -31,11 +30,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Locale
 
-val GradientEnd = Color(0xFF5C9CE6) // Soft Blue
-val CalendarHighlight = Color(0xFF29B6F6) // bright blue
+val GradientEnd = Color(0xFF5C9CE6)
+val CalendarHighlight = Color(0xFF29B6F6)
 
-val TextPrimaryDark = Color(0xFF4A4A4A) // Soft dark gray for main text
-val TextSoftGray = Color(0xFF9E9E9E) // Light gray for inactive text
 
 @Entity(tableName = "events_table")
 data class EngineerEvent(
@@ -60,11 +57,10 @@ fun HomeScreen(viewModel: EventViewModel,
     val currentLocale = config.locales[0]
 
     var selectedCategory by remember { mutableStateOf("Exam") }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -139,11 +135,13 @@ fun HomeScreen(viewModel: EventViewModel,
         Spacer(modifier = Modifier.height(24.dp))
 
         Column(modifier = Modifier.padding(horizontal = 24.dp)) {
-            AcademicCalendarCard(events = eventList,
+            AcademicCalendarCard(
+                events = eventList,
                 onDateSelected = { date ->
-                selectedDate = date
-                showAddDialog = true
-            })
+                    selectedDate = date
+                    showAddDialog = true
+                }
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -151,7 +149,7 @@ fun HomeScreen(viewModel: EventViewModel,
                 text = "Upcoming Events",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
-                color = TextPrimaryDark,
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -160,8 +158,10 @@ fun HomeScreen(viewModel: EventViewModel,
                 OutlinedCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.outlinedCardColors(containerColor = Color(0xFFF9FAFB)),
-                    border = BorderStroke(1.dp, Color(0xFFEEEEEE))
+                    colors = CardDefaults.outlinedCardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Box(
                         modifier = Modifier
@@ -171,7 +171,7 @@ fun HomeScreen(viewModel: EventViewModel,
                     ) {
                         Text(
                             text = "No upcoming events scheduled.",
-                            color = TextSoftGray,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -190,12 +190,11 @@ fun HomeScreen(viewModel: EventViewModel,
 
             Spacer(modifier = Modifier.height(24.dp))
 
-
             Text(
                 text = "Past Events",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
-                color = TextPrimaryDark,
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -203,8 +202,10 @@ fun HomeScreen(viewModel: EventViewModel,
                 OutlinedCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.outlinedCardColors(containerColor = Color(0xFFF9FAFB)),
-                    border = BorderStroke(1.dp, Color(0xFFEEEEEE))
+                    colors = CardDefaults.outlinedCardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Box(
                         modifier = Modifier
@@ -214,7 +215,7 @@ fun HomeScreen(viewModel: EventViewModel,
                     ) {
                         Text(
                             text = "No past events recorded.",
-                            color = TextSoftGray,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -244,14 +245,14 @@ fun HomeScreen(viewModel: EventViewModel,
                 customDescription = ""
                 selectedCategory = "Exam"
             },
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(24.dp),
             title = {
                 Text(
                     text = "Add Event",
                     fontWeight = FontWeight.Medium,
                     fontSize = 22.sp,
-                    color = TextPrimaryDark
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             },
             text = {
@@ -264,7 +265,11 @@ fun HomeScreen(viewModel: EventViewModel,
                     )
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Text(text = "Event type", color = TextSoftGray, fontSize = 14.sp)
+                    Text(
+                        text = "Event type",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 14.sp
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Column(modifier = Modifier.fillMaxWidth()) {
@@ -278,7 +283,7 @@ fun HomeScreen(viewModel: EventViewModel,
                                     onClick = { selectedCategory = "Exam" },
                                     colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
                                 )
-                                Text("Exam", color = TextPrimaryDark, fontSize = 15.sp)
+                                Text("Exam", color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp)
                             }
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -289,7 +294,7 @@ fun HomeScreen(viewModel: EventViewModel,
                                     onClick = { selectedCategory = "Quiz" },
                                     colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
                                 )
-                                Text("Quiz", color = TextPrimaryDark, fontSize = 15.sp)
+                                Text("Quiz", color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp)
                             }
                         }
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -302,7 +307,7 @@ fun HomeScreen(viewModel: EventViewModel,
                                     onClick = { selectedCategory = "Project" },
                                     colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
                                 )
-                                Text("Project", color = TextPrimaryDark, fontSize = 15.sp)
+                                Text("Project", color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp)
                             }
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -313,7 +318,7 @@ fun HomeScreen(viewModel: EventViewModel,
                                     onClick = { selectedCategory = "Study" },
                                     colors = RadioButtonDefaults.colors(selectedColor = CalendarHighlight)
                                 )
-                                Text("Study", color = TextPrimaryDark, fontSize = 15.sp)
+                                Text("Study", color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp)
                             }
                         }
                     }
@@ -323,12 +328,16 @@ fun HomeScreen(viewModel: EventViewModel,
                     OutlinedTextField(
                         value = customDescription,
                         onValueChange = { customDescription = it },
-                        placeholder = { Text("Event description...", color = TextSoftGray) },
+                        placeholder = {
+                            Text("Event description...", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = CalendarHighlight,
-                            unfocusedBorderColor = Color(0xFFE0E0E0)
+                            unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         )
                     )
                 }
@@ -367,7 +376,7 @@ fun HomeScreen(viewModel: EventViewModel,
                         selectedCategory = "Exam"
                     }
                 ) {
-                    Text("Cancel", color = TextSoftGray)
+                    Text("Cancel", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         )
@@ -379,21 +388,20 @@ fun EventCard(
     event: EngineerEvent,
     onDelete: () -> Unit
 ) {
-
-    val (primaryColor, backgroundColor) = when (event.category) {
-        "Exam" -> Color(0xFFD32F2F) to Color(0xFFFFEBEE)
-        "Project" -> Color(0xFF0288D1) to Color(0xFFE1F5FE)
-        "Quiz" -> Color(0xFFF57C00) to Color(0xFFFFF3E0)
-        else -> Color(0xFF388E3C) to Color(0xFFE8F5E9)
+    val primaryColor = when (event.category) {
+        "Exam" -> Color(0xFFEF5350)
+        "Project" -> Color(0xFF29B6F6)
+        "Quiz" -> Color(0xFFFFA726)
+        else -> Color(0xFF66BB6A)
     }
 
     OutlinedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.outlinedCardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         ),
-        border = BorderStroke(1.dp, Color(0xFFEEF0F2))
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Row(
             modifier = Modifier
@@ -418,7 +426,7 @@ fun EventCard(
                 ) {
 
                     Surface(
-                        color = backgroundColor,
+                        color = primaryColor.copy(alpha = 0.15f),
                         shape = RoundedCornerShape(6.dp)
                     ) {
                         Text(
@@ -430,26 +438,23 @@ fun EventCard(
                         )
                     }
 
-
                     Text(
                         text = event.date,
                         fontSize = 12.sp,
-                        color = TextSoftGray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Medium
                     )
                 }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-
                 Text(
                     text = event.description,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = TextPrimaryDark
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
-
 
             IconButton(
                 onClick = onDelete,
@@ -458,7 +463,7 @@ fun EventCard(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete Event",
-                    tint = Color(0xFFB0BEC5),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                     modifier = Modifier.size(20.dp)
                 )
             }
