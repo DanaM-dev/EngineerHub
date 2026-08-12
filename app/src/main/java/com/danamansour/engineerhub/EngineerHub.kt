@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.danamansour.engineerhub.ui.theme.ThemeSetting
 import kotlinx.coroutines.launch
 
@@ -57,12 +58,36 @@ fun EngineerHubApp(
     onThemeChange: (ThemeSetting) -> Unit,
     eventViewModel: EventViewModel = viewModel()
 ) {
+    var recentToolIds by rememberSaveable { mutableStateOf(listOf("formulas", "pomodoro")) }
+
+    val recentShortcutItems = remember(recentToolIds) {
+        recentToolIds.mapNotNull { id ->
+            when (id) {
+                "formulas", Screen.ConstantsSheet -> ShortcutItem("formulas", "Constants", Icons.Outlined.MenuBook)
+                "pomodoro", Screen.Pomodoro -> ShortcutItem("pomodoro", "Timer", Icons.Outlined.Timer)
+                "converter", Screen.UnitConverter -> ShortcutItem("converter", "Converter", Icons.Outlined.SwapHoriz)
+                "electrical", Screen.Electrical -> ShortcutItem("electrical", "Electrical", Icons.Default.Bolt)
+                "mechanical", Screen.Mechanical -> ShortcutItem("mechanical", "Mechanical", Icons.Default.Settings)
+                "telecom", Screen.Telecom -> ShortcutItem("telecom", "Telecom", Icons.Outlined.Router)
+                "civil", Screen.Civil -> ShortcutItem("civil", "Civil", Icons.Outlined.Engineering)
+                "chemical", Screen.Chemical -> ShortcutItem("chemical", "Chemical", Icons.Outlined.Science)
+                "thermo", Screen.Thermo -> ShortcutItem("thermo", "Thermo", Icons.Outlined.Thermostat)
+                "industrial", Screen.Industrial -> ShortcutItem("industrial", "Industrial", Icons.Outlined.Factory)
+                "aerospace", Screen.Aerospace -> ShortcutItem("aerospace", "Aerospace", Icons.Outlined.RocketLaunch)
+                else -> null
+            }
+        }
+    }
+
+    fun trackToolVisit(toolId: String) {
+        if (toolId == Screen.Dashboard || toolId == "home") return
+        recentToolIds = (listOf(toolId) + recentToolIds.filterNot { it == toolId }).take(5)
+    }
+
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var currentScreen by remember { mutableStateOf("home") }
-    val LightBlueMain = Color(0xFFBBDEFB)
-    val DarkBlueText = Color(0xFF0D47A1)
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -112,6 +137,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "electrical",
                     onClick = {
                         currentScreen = "electrical"
+                        trackToolVisit(Screen.Electrical)
                         navController.navigateToTop(Screen.Electrical)
                         scope.launch { drawerState.close() }
                     },
@@ -138,6 +164,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "mechanical",
                     onClick = {
                         currentScreen = "mechanical"
+                        trackToolVisit(Screen.Mechanical)
                         navController.navigateToTop(Screen.Mechanical)
                         scope.launch { drawerState.close() }
                     },
@@ -163,6 +190,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "chemical",
                     onClick = {
                         currentScreen = "chemical"
+                        trackToolVisit(Screen.Chemical)
                         navController.navigateToTop(Screen.Chemical)
                         scope.launch { drawerState.close() }
                     },
@@ -189,6 +217,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "thermo",
                     onClick = {
                         currentScreen = "thermo"
+                        trackToolVisit(Screen.Thermo)
                         navController.navigateToTop(Screen.Thermo)
                         scope.launch { drawerState.close() }
                     },
@@ -214,6 +243,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "telecom",
                     onClick = {
                         currentScreen = "telecom"
+                        trackToolVisit(Screen.Telecom)
                         navController.navigateToTop(Screen.Telecom)
                         scope.launch { drawerState.close() }
                     },
@@ -239,6 +269,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "civil",
                     onClick = {
                         currentScreen = "civil"
+                        trackToolVisit(Screen.Civil)
                         navController.navigateToTop(Screen.Civil)
                         scope.launch { drawerState.close() }
                     },
@@ -264,6 +295,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "industrial",
                     onClick = {
                         currentScreen = "industrial"
+                        trackToolVisit(Screen.Industrial)
                         navController.navigateToTop(Screen.Industrial)
                         scope.launch { drawerState.close() }
                     },
@@ -289,6 +321,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "aerospace",
                     onClick = {
                         currentScreen = "aerospace"
+                        trackToolVisit(Screen.Aerospace)
                         navController.navigateToTop(Screen.Aerospace)
                         scope.launch { drawerState.close() }
                     },
@@ -314,6 +347,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "unit_converter",
                     onClick = {
                         currentScreen = "unit_converter"
+                        trackToolVisit(Screen.UnitConverter)
                         navController.navigateToTop(Screen.UnitConverter)
                         scope.launch { drawerState.close() }
                     },
@@ -339,6 +373,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "constants_sheet",
                     onClick = {
                         currentScreen = "constants_sheet"
+                        trackToolVisit(Screen.ConstantsSheet)
                         navController.navigateToTop(Screen.ConstantsSheet)
                         scope.launch { drawerState.close() }
                     },
@@ -364,6 +399,7 @@ fun EngineerHubApp(
                     selected = currentScreen == "pomodoro",
                     onClick = {
                         currentScreen = "pomodoro"
+                        trackToolVisit(Screen.Pomodoro)
                         navController.navigateToTop(Screen.Pomodoro)
                         scope.launch { drawerState.close() }
                     },
@@ -396,9 +432,33 @@ fun EngineerHubApp(
                 composable(Screen.Dashboard) {
                     HomeScreen(
                         viewModel = eventViewModel,
-                        onMenuClick = { scope.launch { drawerState.open() } }
+                        recentShortcuts = recentShortcutItems,
+                        onMenuClick = { scope.launch { drawerState.open() } },
+                        onNavigateToTool = { toolId ->
+                            trackToolVisit(toolId)
+                            val targetRoute = when (toolId) {
+                                "converter", "unit_converter" -> Screen.UnitConverter
+                                "formulas", "constants" -> Screen.ConstantsSheet
+                                "pomodoro" -> Screen.Pomodoro
+                                "telecom" -> Screen.Telecom
+                                "electrical" -> Screen.Electrical
+                                "mechanical" -> Screen.Mechanical
+                                "thermo" -> Screen.Thermo
+                                "chemical" -> Screen.Chemical
+                                "civil" -> Screen.Civil
+                                "industrial" -> Screen.Industrial
+                                "aerospace" -> Screen.Aerospace
+                                else -> null
+                            }
+                            targetRoute?.let { route ->
+                                currentScreen = route
+                                trackToolVisit(route)
+                                navController.navigateToTop(route)
+                            }
+                        }
                     )
                 }
+
                 composable(Screen.Electrical) {
                     ElectricalScreen()
                 }

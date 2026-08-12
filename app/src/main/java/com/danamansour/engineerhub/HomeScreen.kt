@@ -9,6 +9,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -45,7 +47,9 @@ data class EngineerEvent(
 
 @Composable
 fun HomeScreen(viewModel: EventViewModel,
-    onMenuClick: () -> Unit = {}) {
+               recentShortcuts: List<ShortcutItem> = emptyList(),
+               onMenuClick: () -> Unit = {},
+               onNavigateToTool: (String) -> Unit = {}) {
     val eventList by viewModel.allEvents.collectAsState()
     val (passedEvents, upcomingEvents) = remember(eventList) {
         eventList.partition { isPastEvent(it.date) }
@@ -144,6 +148,13 @@ fun HomeScreen(viewModel: EventViewModel,
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+
+            SmartShortcutsSection(
+                recentShortcuts = recentShortcuts,
+                onShortcutClick = { shortcut ->onNavigateToTool(shortcut.id)
+                }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = "Upcoming Events",
@@ -498,7 +509,7 @@ fun isPastEvent(dateString: String): Boolean {
 
 
     val formatters = listOf(
-        DateTimeFormatter.ISO_LOCAL_DATE, //
+        DateTimeFormatter.ISO_LOCAL_DATE,
         DateTimeFormatter.ofPattern("yyyy-MM-dd"),
         DateTimeFormatter.ofPattern("dd/MM/yyyy"),
         DateTimeFormatter.ofPattern("d/M/yyyy"),
@@ -514,9 +525,7 @@ fun isPastEvent(dateString: String): Boolean {
         try {
             val eventDate = LocalDate.parse(trimmedDate, formatter)
             return eventDate.isBefore(LocalDate.now())
-        } catch (e: DateTimeParseException) {
-            // Keep trying other formats
-        }
+        } catch (e: DateTimeParseException) { }
     }
 
     return false
